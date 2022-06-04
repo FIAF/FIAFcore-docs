@@ -2,7 +2,7 @@
 
 #### Summary
 
-This repository contains documentation for the [FIAFcore](https://github.com/FIAF/FIAFcore-lab) ontology, built using [Docusaurus](https://github.com/facebook/docusaurus).
+This repository contains documentation for the [FIAFcore](https://github.com/FIAF/FIAFcore) ontology, built using [Docusaurus](https://github.com/facebook/docusaurus).
 
 #### Transformation
 
@@ -10,7 +10,7 @@ Markdown docs are generated directly from the [ontology source file](https://raw
 
 #### Deployment
 
-Documentation can be deployed using the following commands on a Debian server (tested using Debian 11 x64):
+Documentation can be deployed using the following commands on a Debian server (tested using Debian 11 x64).
 
 ```bash
 # clone repo
