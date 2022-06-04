@@ -10,7 +10,7 @@ Markdown docs are generated directly from the [ontology source file](https://raw
 
 #### Deployment
 
-Documentation can be deployed using the following commands :
+Documentation can be deployed using the following commands on a Debian server (tested using Debian 11 x64):
 
 ```bash
 # clone repo
