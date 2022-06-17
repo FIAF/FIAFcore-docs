@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 3.1.5.2
 (3.1.5.2) Descripción del estado de preservación o el estado de acceso del Ítem, por ejemplo: máster, visualización, etc.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/es/ontology/Item)
 #### Range
-[Estado](https://fiafcore.org/ontology/Status)
+[Estado](https://fiafcore.org/es/ontology/Status)

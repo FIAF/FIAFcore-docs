@@ -10,6 +10,6 @@ FIAFcore:hasStream
 [NEEDS TRANSLATION] (TRACK (2)) As a digital term, refers to any of various tracks (image, sound, subtitle, etc.) in a moving image file.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/es/ontology/Item)
 #### Range
-[[NEEDS TRANSLATION] Stream](https://fiafcore.org/ontology/Stream)
+[[NEEDS TRANSLATION] Stream](https://fiafcore.org/es/ontology/Stream)

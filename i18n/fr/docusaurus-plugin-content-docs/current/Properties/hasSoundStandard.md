@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF 2.3.4.3.1, 3.1.5.5
 (2.3.4.3.1) Décrit le système technique ou propriétaire utilisé pour enregistrer le son sur une Manifestation/un Item, par exemple, Dolby SR, Dolby Digital, DTS, etc. (3.1.5.5) Le procédé sonore décrit le système technique ou propriétaire utilisé pour enregistrer le son sur une Manifestation/un Item, par exemple, Dolby SR, Dolby Digital, Dolby Digital, etc.
 
 #### Domain
-[Caractéristique Sonores](https://fiafcore.org/ontology/SoundCharacteristic)
+[Caractéristique Sonores](https://fiafcore.org/fr/ontology/SoundCharacteristic)
 #### Range
-[Procédé Sonore](https://fiafcore.org/ontology/SoundStandard)
+[Procédé Sonore](https://fiafcore.org/fr/ontology/SoundStandard)

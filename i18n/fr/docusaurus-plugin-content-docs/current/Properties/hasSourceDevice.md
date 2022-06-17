@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF 3.1.5.21
 (3.1.5.21) Indiquez les appareils utilisés dans les projets de transfert. Il peut s'agir d'une station vidéo, d'une tireuse cinématographique ou de matériel informatique.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/fr/ontology/Item)
 #### Range
-[Périphérique de Lecture](https://fiafcore.org/ontology/SourceDevice)
+[Périphérique de Lecture](https://fiafcore.org/fr/ontology/SourceDevice)

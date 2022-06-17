@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 3.1.5.10
 (3.1.5.10) La norma de transmisión de video o DVD / BluRay puede ser: NTSC, PAL, SECAM.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/es/ontology/Item)
 #### Range
-[Norma de Transmisión de Video](https://fiafcore.org/ontology/BroadcastStandard)
+[Norma de Transmisión de Video](https://fiafcore.org/es/ontology/BroadcastStandard)

@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF 3.1.5.10
 (3.1.5.10) Il s'agit des standards de codage pour les vidéos ou DVD/Blu-ray : NTSC, PAL, SECAM.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/fr/ontology/Item)
 #### Range
-[Standard de Télédiffusion](https://fiafcore.org/ontology/BroadcastStandard)
+[Standard de Télédiffusion](https://fiafcore.org/fr/ontology/BroadcastStandard)

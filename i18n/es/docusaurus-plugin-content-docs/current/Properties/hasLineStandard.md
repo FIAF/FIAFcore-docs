@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 3.1.5.19
 (3.1.5.19) Describe el número de líneas escaneadas que estructuran la imágen e indica la resolución, por ejemplo, 405, 525, 1080.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/es/ontology/Item)
 #### Range
 [integer](http://www.w3.org/2001/XMLSchema#integer)

@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 2.4.4
 (2.4.4) Exprese la relación entre una Manifestación de imágenes en movimiento y un Ítem de imágenes en movimiento (por ejemplo, “parte/parte de”).
 
 #### Domain
-[Manifestación](https://fiafcore.org/ontology/Manifestation)
+[Manifestación](https://fiafcore.org/es/ontology/Manifestation)
 #### Range
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/es/ontology/Item)

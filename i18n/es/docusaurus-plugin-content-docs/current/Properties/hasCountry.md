@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 1.3.3
 (1.3.3) Cuando se conozca y aplique el caso, registre el origen geográfico de la Obra o Variante de imágenes en movimiento.
 
 #### Domain
-[Variante](https://fiafcore.org/ontology/Variant), [Obra](https://fiafcore.org/ontology/Work)
+[Variante](https://fiafcore.org/es/ontology/Variant), [Obra](https://fiafcore.org/es/ontology/Work)
 #### Range
-[País](https://fiafcore.org/ontology/Country)
+[País](https://fiafcore.org/es/ontology/Country)

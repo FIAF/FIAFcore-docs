@@ -1,15 +1,15 @@
 ---
-slug: /hasTitleText
+slug: /hasVideoCodec
 ---
-# Has Title Text
+# Has Video Codec
 #### Class
-FIAFcore:hasTitleText
+FIAFcore:hasVideoCodec
 #### Reference
-FIAF Moving Image Cataloguing Manual 1.3.2, 2.3.2, 3.1.2
+FIAF Moving Image Cataloguing Manual 3.1.5.16
 #### Definition
-(1.3.2) Record at least one title, identifying phrase, or name for the moving image Work or Variant. (2.3.2) Record at least one title, identifying phrase, or name for the Manifestation Title. (3.1.2) Record at least one title, identifying phrase, or name for the moving image Item Title.
+(3.1.5.16) The video compression standard used in the digital video Item, for example, D10, MP4, etc.
 
 #### Domain
-[Title](https://fiafcore.org/ontology/Title)
+[Stream](https://fiafcore.org/ontology/Stream)
 #### Range
-[string](http://www.w3.org/2001/XMLSchema#string)
+[Video Codec](https://fiafcore.org/ontology/VideoCodec)

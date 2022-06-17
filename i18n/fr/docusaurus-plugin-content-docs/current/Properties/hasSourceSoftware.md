@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF 3.1.5.22
 (3.1.5.22) Indiquez le logiciel utilisé pour lire un fichier numérique.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/fr/ontology/Item)
 #### Range
-[Logiciel](https://fiafcore.org/ontology/SourceSoftware)
+[Logiciel](https://fiafcore.org/fr/ontology/SourceSoftware)

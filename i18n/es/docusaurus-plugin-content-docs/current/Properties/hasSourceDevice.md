@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 3.1.5.21
 (3.1.5.21) Registre el dispositivo fuente de reproducción utilizado en proyectos de transferencia. Este puede corresponder al tablero de video, la impresora de película o el equipo de computadora.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/es/ontology/Item)
 #### Range
-[Dispositivo para reproducción](https://fiafcore.org/ontology/SourceDevice)
+[Dispositivo para reproducción](https://fiafcore.org/es/ontology/SourceDevice)

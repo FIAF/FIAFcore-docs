@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 2.3.5, 3.1.5.8
 (2.3.5) El concepto de extensión tal como se aplica en las Manifestaciones se refiere a las unidades lógicas, físicas o temporales (duración) “ideales”; y no a la descripción de un objeto físico real. (3.1.5.8) La extension física y/o digital es una característica de un Ítem específico, ya que puede diferir de múltiples Ítems ejemplificando a la misma Manifestación de imágenes en movimiento.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item), [Manifestación](https://fiafcore.org/ontology/Manifestation)
+[Ítem](https://fiafcore.org/es/ontology/Item), [Manifestación](https://fiafcore.org/es/ontology/Manifestation)
 #### Range
-[Extensión](https://fiafcore.org/ontology/Extent)
+[Extensión](https://fiafcore.org/es/ontology/Extent)

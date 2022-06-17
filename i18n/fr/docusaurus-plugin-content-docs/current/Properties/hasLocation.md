@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF D.4.3
 (D.4.3) Tout/tous nom(s) ou adresse(s) du ou des lieu(x) où l'événement s'est déroulé. 
 
 #### Domain
-[Événement](https://fiafcore.org/ontology/Event)
+[Événement](https://fiafcore.org/fr/ontology/Event)
 #### Range
-[Lieu](https://fiafcore.org/ontology/Location)
+[Lieu](https://fiafcore.org/fr/ontology/Location)

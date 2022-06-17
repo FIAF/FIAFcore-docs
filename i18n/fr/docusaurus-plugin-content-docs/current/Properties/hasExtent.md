@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF 2.3.5, 3.1.5.8
 (2.3.5) Le concept d'étendue appliqué à la Manifestation désigne des unités logiques, matérielles ou temporelles (durée) « idéales » et non celles d'un objet physique réel. (3.1.5.8) L'étendue matérielle/numérique réelle caractérise un Item en particulier et peut être différente pour chaque Item distinct représentant un exemplaire d'une même Manifestation.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item), [Manifestation](https://fiafcore.org/ontology/Manifestation)
+[Ítem](https://fiafcore.org/fr/ontology/Item), [Manifestation](https://fiafcore.org/fr/ontology/Manifestation)
 #### Range
-[Étendue](https://fiafcore.org/ontology/Extent)
+[Étendue](https://fiafcore.org/fr/ontology/Extent)

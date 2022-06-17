@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 1.2.2
 (1.2.2) Identifique y describa el tipo de cambio a partir de una Obra de la que ha surgido una Variante.
 
 #### Domain
-[Variante](https://fiafcore.org/ontology/Variant)
+[Variante](https://fiafcore.org/es/ontology/Variant)
 #### Range
-[Tiene Variante](https://fiafcore.org/ontology/VariantType)
+[Tiene Variante](https://fiafcore.org/es/ontology/VariantType)

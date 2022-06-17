@@ -1,15 +1,15 @@
 ---
-slug: /hasTitleText
+slug: /hasVideoCodec
 ---
-# A Un Texte de Titre
+# A Un Codec Video
 #### Class
-FIAFcore:hasTitleText
+FIAFcore:hasVideoCodec
 #### Reference
-Le Manuel de catalogage des images animées de la FIAF 1.3.2, 2.3.2, 3.1.2
+Le Manuel de catalogage des images animées de la FIAF 3.1.5.16
 #### Definition
-(1.3.2) Enregistrez au moins un titre, une expression identifiante ou un nom pour l'Œuvre ou la Variante. (2.3.2) Enregistrez au moins un titre, une expression identifiante ou un nom dans le champ titre de la Manifestation. (3.1.2) Enregistrez au moins un titre, une expression identifiante ou un nom dans le champ titre de l'Item.
+(3.1.5.16) Il s'agit du standard de compression vidéo utilisé dans l'Item vidéo numérique, par exemple, D10, MP4, etc.
 
 #### Domain
-[Titre](https://fiafcore.org/ontology/Title)
+[[NEEDS TRANSLATION] Stream](https://fiafcore.org/fr/ontology/Stream)
 #### Range
-[string](http://www.w3.org/2001/XMLSchema#string)
+[Codec Video](https://fiafcore.org/fr/ontology/VideoCodec)

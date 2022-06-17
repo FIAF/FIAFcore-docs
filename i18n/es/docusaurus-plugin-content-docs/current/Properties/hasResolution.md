@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 3.1.5.18
 (3.1.5.18) Registre si la resolución del Ítem corresponde a Definición Regular(Standard Definition), Alta Definición(High Definition), etc.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/es/ontology/Item)
 #### Range
-[Resolución](https://fiafcore.org/ontology/Resolution)
+[Resolución](https://fiafcore.org/es/ontology/Resolution)

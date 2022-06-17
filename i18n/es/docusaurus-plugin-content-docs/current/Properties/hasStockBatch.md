@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 3.1.5.15
 (3.1.5.15) La identificación del número de lote puede ayudar a identificar problemas relacionados con lotes manufacturados específicos.
 
 #### Domain
-[Stock](https://fiafcore.org/ontology/Stock)
+[Stock](https://fiafcore.org/es/ontology/Stock)
 #### Range
 [string](http://www.w3.org/2001/XMLSchema#string)

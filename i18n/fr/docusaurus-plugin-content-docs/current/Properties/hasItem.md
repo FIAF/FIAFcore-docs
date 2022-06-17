@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF 2.4.4
 (2.4.4) Exprimez la relation entre une Manifestation et un Item (p. ex., contient/est contenu dans).
 
 #### Domain
-[Manifestation](https://fiafcore.org/ontology/Manifestation)
+[Manifestation](https://fiafcore.org/fr/ontology/Manifestation)
 #### Range
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/fr/ontology/Item)

@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 1.4.3
 (1.4.3) Los términos de Género describen categorías de Obras, caracterizadas por tramas, temas, ambientación o situaciones y personajes similares. Son ejemplos de géneros los “westerns” y “thrillers”.
 
 #### Domain
-[Variante](https://fiafcore.org/ontology/Variant), [Obra](https://fiafcore.org/ontology/Work)
+[Variante](https://fiafcore.org/es/ontology/Variant), [Obra](https://fiafcore.org/es/ontology/Work)
 #### Range
-[Género](https://fiafcore.org/ontology/Genre)
+[Género](https://fiafcore.org/es/ontology/Genre)

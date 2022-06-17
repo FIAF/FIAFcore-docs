@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF 3.1.5.18
 (3.1.5.18) Indiquez si la résolution de l'Item est en définition standard, en haute définition, etc.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/fr/ontology/Item)
 #### Range
-[Résolution](https://fiafcore.org/ontology/Resolution)
+[Résolution](https://fiafcore.org/fr/ontology/Resolution)

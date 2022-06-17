@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF 3.1.3
 (3.1.3) Enregistrez le nom de l'institution qui détient l'Item ou qui est autorisé à le mettre à disposition.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/fr/ontology/Item)
 #### Range
-[Établissement Détenteur](https://fiafcore.org/ontology/HoldingInstitution)
+[Établissement Détenteur](https://fiafcore.org/fr/ontology/HoldingInstitution)

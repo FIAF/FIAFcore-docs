@@ -1,15 +1,15 @@
 ---
-slug: /hasTitleText
+slug: /hasVideoCodec
 ---
-# Tiene Texto de Título
+# Tiene Codificación de Video
 #### Class
-FIAFcore:hasTitleText
+FIAFcore:hasVideoCodec
 #### Reference
-Manual FIAF de Catalogación de Imágenes en Movimiento 1.3.2, 2.3.2, 3.1.2
+Manual FIAF de Catalogación de Imágenes en Movimiento 3.1.5.16
 #### Definition
-(1.3.2) Registre al menos un título, frase de identificación o nombre a la Obra o Variante de imágenes en movimiento. (2.3.2) Registre al menos un título, frase identificadora o nombre como el Título de la Manifestación. (3.1.2) Registre al menos un título, frase identificadora o nombre del Ítem de imágenes en movimiento.
+(3.1.5.16) La norma de compresión de video usada en un Ítem de video digital, por ejemplo, D10, MP4, etc.
 
 #### Domain
-[Título](https://fiafcore.org/ontology/Title)
+[[NEEDS TRANSLATION] Stream](https://fiafcore.org/es/ontology/Stream)
 #### Range
-[string](http://www.w3.org/2001/XMLSchema#string)
+[Codificación de Video](https://fiafcore.org/es/ontology/VideoCodec)

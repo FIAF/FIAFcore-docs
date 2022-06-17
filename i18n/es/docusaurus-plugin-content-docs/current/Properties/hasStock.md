@@ -10,6 +10,6 @@ Manual FIAF de Catalogación de Imágenes en Movimiento 3.1.5.14
 (3.1.5.14) Describe el tipo o la marca comercial específica sobre la que se ha capturado el Ítem, por ejemplo, Eastman Kodak, Fuji, 3M, etc.
 
 #### Domain
-[Ítem](https://fiafcore.org/ontology/Item)
+[Ítem](https://fiafcore.org/es/ontology/Item)
 #### Range
-[Stock](https://fiafcore.org/ontology/Stock)
+[Stock](https://fiafcore.org/es/ontology/Stock)

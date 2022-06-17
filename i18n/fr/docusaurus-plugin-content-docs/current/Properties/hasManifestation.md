@@ -10,6 +10,6 @@ Le Manuel de catalogage des images animées de la FIAF 1.4.6
 (1.4.6) Exprimez la relation entre une Œuvre ou une Variante et une Manifestation (p. ex., contient/est contenu dans). Décrivez ou rendez visibles les relations entre l'Œuvre et la Manifestation en faisant un lien vers l'identifiant de l'Œuvre, en qualifiant les relations ou selon les possibilités offertes par la structure des données de l'institution.
 
 #### Domain
-[Variante](https://fiafcore.org/ontology/Variant), [Œuvre](https://fiafcore.org/ontology/Work)
+[Variante](https://fiafcore.org/fr/ontology/Variant), [Œuvre](https://fiafcore.org/fr/ontology/Work)
 #### Range
-[Manifestation](https://fiafcore.org/ontology/Manifestation)
+[Manifestation](https://fiafcore.org/fr/ontology/Manifestation)
