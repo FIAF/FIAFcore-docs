@@ -7,7 +7,7 @@ module.exports = {
       label: 'Classes',
       collapsible: true,
       collapsed: true,
-      items: ["Classes/Agent","Classes/AudioCodec","Classes/Base","Classes/BroadcastStandard","Classes/Carrier","Classes/ColourStandard","Classes/Country","Classes/Element","Classes/Form","Classes/Genre","Classes/HoldingInstitution","Classes/Language","Classes/Location","Classes/Resolution","Classes/SoundFixation","Classes/SoundStandard","Classes/SourceDevice","Classes/SourceSoftware","Classes/Status","Classes/VariantType","Classes/VideoCodec","Classes/Activity","Classes/ColourCharacteristic","Classes/Condition","Classes/Extent","Classes/Identifier","Classes/LanguageUsage","Classes/ProjectionCharacteristic","Classes/Stock","Classes/Title","Classes/SoundCharacteristic","Classes/Stream","Classes/Event","Classes/Work","Classes/Variant","Classes/Manifestation","Classes/Item"]
+      items: ["Classes/Activity", "Classes/Agent", "Classes/AudioCodec", "Classes/Base", "Classes/BroadcastStandard", "Classes/Carrier", "Classes/ColourCharacteristic", "Classes/ColourStandard", "Classes/Condition", "Classes/Country", "Classes/Element", "Classes/Event", "Classes/Extent", "Classes/Form", "Classes/Genre", "Classes/HoldingInstitution", "Classes/Identifier", "Classes/Item", "Classes/Language", "Classes/LanguageUsage", "Classes/Location", "Classes/Manifestation", "Classes/ProjectionCharacteristic", "Classes/Resolution", "Classes/SoundCharacteristic", "Classes/SoundFixation", "Classes/SoundStandard", "Classes/SourceDevice", "Classes/SourceSoftware", "Classes/Status", "Classes/Stock", "Classes/Stream", "Classes/Title", "Classes/Variant", "Classes/VariantType", "Classes/VideoCodec", "Classes/Work"]
     },
     {
       type: 'category',
