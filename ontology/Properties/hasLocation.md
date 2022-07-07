@@ -1,7 +1,7 @@
 ---
 slug: /hasLocation
 ---
-# None
+# Has Location
 #### Class
 FIAFcore:hasLocation
 #### Reference

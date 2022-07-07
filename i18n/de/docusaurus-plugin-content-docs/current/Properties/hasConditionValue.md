@@ -1,7 +1,7 @@
 ---
 slug: /hasConditionValue
 ---
-# None
+# Hat Wert von Exemplarszustand
 #### Class
 FIAFcore:hasConditionValue
 #### Reference

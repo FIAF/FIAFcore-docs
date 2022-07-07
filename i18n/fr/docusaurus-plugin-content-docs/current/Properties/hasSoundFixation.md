@@ -1,7 +1,7 @@
 ---
 slug: /hasSoundFixation
 ---
-# None
+# A Une Configuration des Canaux Audio
 #### Class
 FIAFcore:hasSoundFixation
 #### Reference

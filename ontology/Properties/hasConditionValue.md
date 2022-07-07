@@ -1,7 +1,7 @@
 ---
 slug: /hasConditionValue
 ---
-# None
+# Has Condition Value
 #### Class
 FIAFcore:hasConditionValue
 #### Reference
