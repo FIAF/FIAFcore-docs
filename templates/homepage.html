@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FIAFcore</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
+  </head>
+
+<body style="margin: 0; padding: 0">
+
+    <div class="nav-container">
+
+        <div class="nav-item" style='flex-grow:1'> 
+          <tspan class="nav-text">
+            <a href="https://fiafcore.org/" class="nav-text" style="text-decoration:none">FIAFcore</a>
+          </tspan> 
+        </div>
+
+        <div class="nav-item" style="width:150px">  
+          <div class="dropdown" style="padding-top:10px">
+            <div id="dropdownelement" class="dropdown-content" style="margin:0px;overflow: auto">
+              <input type="text" placeholder="Search..." id="searchinput" onkeyup="filterFunction()" onfocusout="setTimeout(removedropdown, 100)"><br>
+              <!-- <input type="text" placeholder="Search..." id="searchinput" onkeyup="filterFunction()"><br> -->
+              {% for sub in data.search_options %}
+              <a href="{{ sub.uri }}" style="display:none;">{{ sub.label }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+    
+        <div class="nav-item">     
+          <form method="POST" style="padding-top:15px">
+            <select name="lang"  id="lang" class='language-selector' onchange="this.form.submit()">
+              <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+              <option value="es" {% if lang == 'es' %}selected{% endif %}>Español</option>
+              <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
+            </select>
+          </form>  
+        </div>
+    
+      </div>
+
+    <div id="title-box" style="background:white;padding-top: 80px;width:800px;margin: auto">
+
+        <tspan class="subject-text" text-anchor="left">FIAFcore</tspan><br><br>
+
+        <tspan class="blank-text">
+          <a href="https://fiafcore.org/" class="value-text">{{ intro.link1 }}</a>{{ intro.text1 }}
+          <a href="https://www.fiafnet.org/pages/E-Resources/Cataloguing-Manual.html" class="value-text">{{ intro.link2 }}</a>{{ intro.text2 }}        
+        </tspan><br><br>
+
+
+        <tspan class="key-text">{{ data.primary.label }}<br><br>
+          {% for sub in data.primary.data %}
+          <a href="{{ sub.uri }}" class="value-text">{{ sub.label }}</a><br>
+          {% endfor %}
+        </tspan><br>
+
+        <tspan class="key-text">{{ data.resources.label}}<br><br>
+            <a href="https://github.com/FIAF/FIAFcore" class="value-text">GitHub</a><br>
+            <a href="https://service.tib.eu/webvowl/#iri=https://raw.githubusercontent.com/FIAF/modelling-workshops/main/ontology.ttl" class="value-text">WebVOWL</a><br>
+        </tspan><br>
+
+        <!-- <tspan class="key-text">{{ data.contact.label}}<br><br>
+            <tspan class="blank-text">admin@fiafcore.org</tspan><br>
+        </tspan><br> -->
+
+    </div>
+
+    <script>
+
+      function filterFunction() {
+          var input, filter, ul, li, a, i;
+          input = document.getElementById("searchinput");
+          filter = input.value.toUpperCase();
+          div = document.getElementById("dropdownelement");
+          a = div.getElementsByTagName("a");
+          for (i = 0; i < a.length; i++) {
+              if (input.value.length == 0) {
+                  a[i].style.display = "none";
+              }
+              else {
+                  txtValue = a[i].textContent || a[i].innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                      a[i].style.display = "";
+                  } else {
+                      a[i].style.display = "none";
+                  }
+              }
+          }
+      }
+
+
+      function removedropdown(){
+        console.log('hey')
+
+        setTimeout( function( ){
+
+        var input, filter, ul, li, a, i;
+          input = document.getElementById("searchinput");
+          input.value = '';
+          filter = input.value.toUpperCase();
+          div = document.getElementById("dropdownelement");
+          a = div.getElementsByTagName("a");
+          for (i = 0; i < a.length; i++) {
+                  a[i].style.display = "none";
+              }}, 100);
+      
+      }
+      </script>
+</body>
+
+</html>
