@@ -42,7 +42,7 @@
     <div id="title-box" style="background:white;padding-top: 80px;width:800px;margin: auto">
 
         <tspan class="subject-text" text-anchor="left">FIAFcore</tspan><br><br>
-
+        <!-- <div id="paper"></div> -->
         <tspan class="blank-text">
           <a href="https://fiafcore.org/" class="value-text">{{ intro.link1 }}</a>{{ intro.text1 }}
           <a href="https://www.fiafnet.org/pages/E-Resources/Cataloguing-Manual.html" class="value-text">{{ intro.link2 }}</a>{{ intro.text2 }}        
@@ -50,14 +50,19 @@
 
 
         <tspan class="key-text">{{ data.primary.label }}<br><br>
-          {% for sub in data.primary.data %}
+
+          <div id="paper"></div>
+          <!-- {% for sub in data.primary.data %}
           <a href="{{ sub.uri }}" class="value-text">{{ sub.label }}</a><br>
           {% endfor %}
+         -->
+        
+        
         </tspan><br>
 
         <tspan class="key-text">{{ data.resources.label}}<br><br>
             <a href="https://github.com/FIAF/FIAFcore" class="value-text">GitHub</a><br>
-            <a href="https://service.tib.eu/webvowl/#iri=https://raw.githubusercontent.com/FIAF/modelling-workshops/main/ontology.ttl" class="value-text">WebVOWL</a><br>
+            <a href="https://service.tib.eu/webvowl/#iri=https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl" class="value-text">WebVOWL</a><br>
         </tspan><br>
 
         <!-- <tspan class="key-text">{{ data.contact.label}}<br><br>
@@ -66,6 +71,111 @@
 
     </div>
 
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+      
+      var width = 800, height = 400
+      
+      canvas = d3
+        .select("#paper")
+        .append("svg")
+        .attr("id", "canvas")
+        .attr("width", width)
+        .attr("height", height)
+        .style("background-color", 'white');
+        
+      var nodes = [
+        {name: 'Work/Variant'},
+        {name: 'Manifestation'},
+        {name: 'Item'},
+        {name: 'Carrier'},
+        {name: 'Event'},
+        {name: 'Activity'},
+        {name: 'Agent'},
+      ]
+      
+      var links = [
+        {source: 0, target: 1, name:'Has Manifestation'},
+        {source: 1, target: 2, name:'Has Item'},
+        {source: 2, target: 3, name:'Has Carrier'},
+        {source: 0, target: 4, name:'Has Event'},
+        {source: 1, target: 4, name:'Has Event'},
+        {source: 2, target: 4, name:'Has Event'},
+        {source: 3, target: 4, name:'Has Event'},
+        {source: 4, target: 5, name:'Has Activity'},
+        {source: 5, target: 6, name:'Has Agent'},
+      ]
+      
+      var simulation2 = d3.forceSimulation(nodes)
+        .force("x",d3.forceX(width/2).strength(0.4))
+        .force("y",d3.forceY(height/2).strength(0.6))
+        .force("charge",d3.forceManyBody().strength(-10000))
+        .force("collide",d3.forceCollide().radius(d => d.r * -10))
+        .force('link', d3.forceLink().links(links))
+        .on('tick', render);
+        
+      function render() {
+        
+        d3.select('#canvas')
+          .selectAll('line')
+          .data(links)
+          .join('line')
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y)
+          .attr('stroke', 'black')
+          .attr('stroke-width', '0.5');
+          
+        d3.select('#canvas')
+          .selectAll('.my_circles')
+          .data(nodes)
+          .join('circle')
+          .attr("class", "my_circles")
+          .attr('r', 10)
+          .attr('cx', d => d.x)
+          .attr('cy', d => d.y)
+          .attr('fill', '#3AB795')
+          .attr('stroke', 'black');
+        
+        d3.select('#canvas')
+          .selectAll('.circle_label')
+          .data(nodes)
+          .join('text')
+          .attr("class", "circle_label")
+          .style("text-anchor", "start")
+          .style("alignment-baseline", "middle")
+          .attr('r', 5)
+          .attr('x', d => d.x+12)
+          .attr('y', d => d.y+1)
+          .text(d => d.name)
+          .attr('fill', 'black')
+
+      //   var u = d3.select('#canvas')
+      //   .selectAll('.link_label')
+      //   .data(links)
+      //   .join('text')
+      //   .attr("class", "link_label")
+      //   .attr('r', 5)
+      //   .attr('x', function(d) {
+      //     return (d.source.x+d.target.x)/2
+      //   })
+      //   .attr('y', function(d) {
+      //     return (d.source.y+d.target.y)/2
+      //   })
+      //   .text(d => d.name)
+      //   .attr('fill', 'black')
+      //   .attr('font-weight', 100)
+        
+      //   .style("text-anchor", "middle")
+      // .style("alignment-baseline", "middle")
+      //   ;
+
+}
+    
+    
+    </script>
     <script>
 
       function filterFunction() {
