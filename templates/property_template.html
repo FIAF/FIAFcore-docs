@@ -17,17 +17,16 @@
       </tspan> 
     </div>
 
-    <div class="nav-item" style="width:150px">  
+    <!-- <div class="nav-item" style="width:150px">  
       <div class="dropdown" style="padding-top:10px">
         <div id="dropdownelement" class="dropdown-content" style="margin:0px;overflow: auto">
           <input type="text" placeholder="Search..." id="searchinput" onkeyup="filterFunction()" onfocusout="setTimeout(removedropdown, 100)"><br>
-          <!-- <input type="text" placeholder="Search..." id="searchinput" onkeyup="filterFunction()"><br> -->
           {% for sub in data.search_options %}
           <a href="{{ sub.uri }}" style="display:none;">{{ sub.label }}</a>
           {% endfor %}
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="nav-item">     
       <form method="POST" style="padding-top:15px">
