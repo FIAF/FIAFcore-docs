@@ -74,7 +74,15 @@
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
+
+      // console.log('hello', '{{ graph|tojson() }}')
       
+      let graph_terms = JSON.parse('{{ graph|tojson() }}')
+
+      console.log(graph_terms)
+      console.log(typeof(graph_terms))
+      console.log(graph_terms['work'])
+
       var width = 800, height = 400
       
       canvas = d3
@@ -86,14 +94,16 @@
         .style("background-color", 'white');
         
       var nodes = [
-        {name: 'Work/Variant'},
-        {name: 'Manifestation'},
-        {name: 'Item'},
-        {name: 'Carrier'},
-        {name: 'Event'},
-        {name: 'Activity'},
-        {name: 'Agent'},
+        {name: graph_terms['work']},
+        {name: graph_terms['manifestation']},
+        {name: graph_terms['carrier']},
+        {name: graph_terms['item']},
+        {name: graph_terms['event']},
+        {name: graph_terms['activity']},
+        {name: graph_terms['agent']},
       ]
+
+      console.log('nodes', nodes)
       
       var links = [
         {source: 0, target: 1, name:'Has Manifestation'},
