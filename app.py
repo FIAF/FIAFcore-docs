@@ -93,6 +93,36 @@ elements = {
     }
 }
 
+primary_manual_translation = {
+    "en": {
+        "work": "Work/Variant",
+        "manifestation": "Manifestation",
+        "item": "Item",
+        "carrier": "Carrier",
+        "event": "Event",
+        "activity": "Activity",
+        "agent": "Agent",
+    },
+    "es": {
+        "work": "Obra/Variante", 
+        "manifestation": "Manifestación",
+        "item": "Ítem",
+        "carrier": "Portador",
+        "event": "Evento",
+        "activity": "Actividad",
+        "agent": "Agente",
+    },
+    "fr": {
+        "work": "l'Œuvre/la Variante",
+        "manifestation": "Manifestation",
+        "item": "Item",
+        "carrier": "Article",
+        "event": "Événement",
+        "activity": "Activité",
+        "agent": "Agent"
+    },
+}
+
 def pull_label(entity):
 
     ''' Pull first available label for entity. '''
@@ -162,7 +192,11 @@ def home_page():
     entity_dict['resources'] = {'label':elements['resources'][current_language]}
     entity_dict['contact'] = {'label':elements['contact'][current_language]}
 
-    return render_template('homepage.html', intro=intro[current_language], data=entity_dict, lang=current_language)
+    return render_template('homepage.html', 
+        intro=intro[current_language], 
+        graph=primary_manual_translation[current_language],
+        data=entity_dict, 
+        lang=current_language)
 
 @app.route('/ontology/<entity>', methods=['GET', 'POST'])
 def entity_page(entity):
