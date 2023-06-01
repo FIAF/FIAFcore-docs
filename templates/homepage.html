@@ -75,13 +75,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
 
-      // console.log('hello', '{{ graph|tojson() }}')
-      
       let graph_terms = JSON.parse('{{ graph|tojson() }}')
-
-      console.log(graph_terms)
-      console.log(typeof(graph_terms))
-      console.log(graph_terms['work'])
 
       var width = 800, height = 400
       
@@ -94,13 +88,13 @@
         .style("background-color", 'white');
         
       var nodes = [
-        {name: graph_terms['work']},
-        {name: graph_terms['manifestation']},
-        {name: graph_terms['carrier']},
-        {name: graph_terms['item']},
-        {name: graph_terms['event']},
-        {name: graph_terms['activity']},
-        {name: graph_terms['agent']},
+        {term: 'work', link: 'WorkVariant'},
+        {term: 'manifestation', link: 'Manifestation'},
+        {term: 'carrier', link: 'Carrier'},
+        {term: 'item', link: 'Item'},
+        {term: 'event', link: 'Event'},
+        {term: 'activity', link: 'Activity'},
+        {term: 'agent', link: 'Agent'},
       ]
 
       console.log('nodes', nodes)
@@ -131,6 +125,7 @@
           .selectAll('line')
           .data(links)
           .join('line')
+          .attr("class", "my_lines")
           .attr('x1', d => d.source.x)
           .attr('y1', d => d.source.y)
           .attr('x2', d => d.target.x)
@@ -142,24 +137,42 @@
           .selectAll('.my_circles')
           .data(nodes)
           .join('circle')
-          .attr("class", "my_circles")
+          .attr("class", d => "my_circles node_"+d.term)
           .attr('r', 10)
           .attr('cx', d => d.x)
           .attr('cy', d => d.y)
           .attr('fill', '#3AB795')
-          .attr('stroke', 'black');
+          .style('stroke', 'black')
+          .on('mouseover', function(e, d) {
+            d3.selectAll('.my_circles').attr('opacity', 0.2)
+            d3.selectAll('.circle_label').attr('opacity', 0.2)
+            d3.selectAll('.my_lines').attr('opacity', 0.2)
+            d3.selectAll('.node_'+d.term).attr('opacity', 1)
+          })    
+          .on('mouseout', function(e, d) {
+            d3.selectAll('.my_circles').attr('opacity', 1)
+            d3.selectAll('.circle_label').attr('opacity', 1)
+            d3.selectAll('.my_lines').attr('opacity', 1)
+          })     
+          .on('click', function(e, d) {
+            let link = 'https://fiafcore.org/ontology/'+d.link
+            console.log('GOOOOO', d.link, link)
+            window.open(link)
+
+          })    
+
         
         d3.select('#canvas')
           .selectAll('.circle_label')
           .data(nodes)
           .join('text')
-          .attr("class", "circle_label")
+          .attr("class", d => "circle_label node_"+d.term)
           .style("text-anchor", "start")
           .style("alignment-baseline", "middle")
           .attr('r', 5)
           .attr('x', d => d.x+12)
           .attr('y', d => d.y+1)
-          .text(d => d.name)
+          .text(d => graph_terms[d.term])
           .attr('fill', 'black')
 
       //   var u = d3.select('#canvas')
