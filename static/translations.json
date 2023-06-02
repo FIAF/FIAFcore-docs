@@ -1,0 +1,58 @@
+
+ {
+    "en": {
+        "link1": "FIAFcore",
+        "text1": " is an ontology for film archives, based primarily on the",
+        "link2": "FIAF Cataloguing Manual",
+        "text2": ". It is intended to facilitate data harmonisation and exchange between institutions.",
+        "primary": "primary classes",
+        "resources": "resources",
+        "contact": "contact",
+        "type": "type",
+        "reference": "reference",
+        "superclass":  "superclass",
+        "subclass":"subclass",
+        "properties":"properties",
+        "description":  "description",
+        "domain":  "domain",
+        "range":  "range",
+        "none": "None"
+    },
+    "es": {
+        "link1": "FIAFcore",
+        "text1": " es una ontología para archivos fílmicos, basada principalmente en el",
+        "link2": "Manual FIAF de Catalogación",
+        "text2": ". Su objetivo es facilitar la armonización y el intercambio de datos entre instituciones.",
+        "primary":  "clases primarias",
+        "resources":  "recursos",
+        "contact":  "contacto",
+        "type":  "tipo",
+        "reference":  "referencia",
+        "superclass":  "superclase",
+        "subclass":  "subclase",
+        "properties":  "propiedades",
+        "description":  "descripción",
+        "domain":  "dominio",
+        "range":  "rango",
+        "none":  "Ninguno"
+    },
+    "fr": {
+        "link1": "FIAFcore",
+        "text1": " est une ontologie pour les archives cinématographiques, basée principalement sur",
+        "link2": "Le Manuel de catalogage de la FIAF",
+        "text2": ". Elle est destinée à faciliter l'harmonisation et l'échange de données entre les institutions.",
+        "primary": "classes primaires",
+        "resources": "ressources",
+        "contact":  "contact",
+        "type": "type",
+        "reference":  "référence",
+        "superclass":  "super-classe",
+        "subclass":  "sous-classe",
+        "properties":  "propriétés",
+        "description":  "description",
+        "domain":  "domaine",
+        "range":  "étendue",
+        "none":  "Aucun"
+    }
+}
+ 

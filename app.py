@@ -2,96 +2,81 @@
 from flask import Flask, render_template, url_for, jsonify, request, session
 from flask_language import Language, current_language
 import json
+import numpy
+import pathlib
+import pydash
 import rdflib
 
-# language updates.
-# read default and changing working as expected, 
-# now mission is to be able to toggle using gui element
-# and also route different data based on lang variable.
+def pull_label(entity, language):
 
-intro = {
-    "en": {
-        "link1": "FIAFcore",
-        "text1": " is an ontology for film archives, based primarily on the",
-        "link2": "FIAF Cataloguing Manual",
-        "text2": ". It is intended to facilitate data harmonisation and exchange between institutions."
-    },
-    "es": {
-        "link1": "FIAFcore",
-        "text1": " es una ontología para archivos fílmicos, basada principalmente en el",
-        "link2": "Manual FIAF de Catalogación",
-        "text2": ". Su objetivo es facilitar la armonización y el intercambio de datos entre instituciones."
-    },
-    "fr": {
-        "link1": "FIAFcore",
-        "text1": " est une ontologie pour les archives cinématographiques, basée principalement sur",
-        "link2": "Le Manuel de catalogage de la FIAF",
-        "text2": ". Elle est destinée à faciliter l'harmonisation et l'échange de données entre les institutions."
-    }
-}
+    ''' Pull first available label for entity. '''
 
-elements = {
-    "primary": {
-        "en": "primary classes",
-        "es": "clases primarias",
-        "fr": "classes primaires"
-    },
-    "resources": {
-        "en": "resources",
-        "es": "recursos",
-        "fr": "ressources"
-    },
-    "contact": {
-        "en": "contact",
-        "es": "contacto",
-        "fr": "contact"
-    },
-    "type": {
-        "en": "type",
-        "es": "tipo",
-        "fr": "type"
-    },
-    "reference": {
-        "en": "reference",
-        "es": "referencia",
-        "fr": "référence"
-    },
-    "superclass": {
-        "en": "superclass",
-        "es": "superclase",
-        "fr": "super-classe"
-    },
-    "subclass": {
-        "en": "subclass",
-        "es": "subclase",
-        "fr": "sous-classe"
-    },
-    "properties": {
-        "en": "properties",
-        "es": "propiedades",
-        "fr": "propriétés"
-    },
-    "description": {
-        "en": "description",
-        "es": "descripción",
-        "fr": "description"
-    },
-    "domains": {
-        "en": "domain",
-        "es": "dominio",
-        "fr": "domaine"
-    },
-    "ranges": {
-        "en": "range",
-        "es": "rango",
-        "fr": "étendue"
-    },
-    "none": {
-        "en": "None",
-        "es": "Ninguno",
-        "fr": "Aucun"
-    }
-}
+    label = [o for s,p,o in graph.triples((entity, rdflib.RDFS.label, None)) if o.language == language]
+    if not len(label):
+        return "Label required."
+    else:
+        return str(label[0])
+    
+def pull_attributes(ee, key, lang):
+
+    ''' Pull information about the entity from the graph. '''
+
+    query = '''
+        select distinct ?class ?label ?superclass ?subclass ?properties ?domain ?union_domain ?range ?reference 
+        where {
+            values ?subject {<https://fiafcore.org/ontology/'''+ee+'''>}
+            values ?language {"'''+lang+'''"}
+            ?subject rdf:type ?class .
+            optional { 
+                ?subject rdfs:label ?label . 
+                filter (lang (?label) = ?language) . }
+            optional { ?subject rdfs:subClassOf ?superclass . }
+            optional { ?subclass rdfs:subClassOf ?subject . }
+            optional { ?properties rdfs:domain ?subject . }
+            optional { ?subject rdfs:domain ?domain . }
+            optional {
+                ?subject rdfs:domain ?domain .
+                ?domain owl:unionOf ?a . 
+                ?a rdf:rest*/rdf:first ?union_domain . }
+            optional { ?subject rdfs:range ?range . }
+            optional { 
+                ?subject <http://purl.org/dc/elements/1.1/source> ?reference . 
+                filter (lang (?reference) = ?language) . } 
+            } '''
+
+    result = pydash.uniq([r[key] for r in graph.query(query)])
+    result = [x for x in result if not isinstance(x, type(None))]
+    result = [x for x in result if not isinstance(x, type(rdflib.BNode('')))]
+    result = sorted(result)
+
+    if len(result) < 1:
+        return []
+    elif isinstance(result[0], type(rdflib.Literal(''))):
+        return [str(x) for x in result]
+    elif type(result[0]) == type(rdflib.URIRef('')):
+        entity_list = [{'link':x, 'label':pull_label(x, lang)} for x in result]
+        return sorted(entity_list, key=lambda x: x['label'])
+    else:
+        raise Exception('Unexpected result.')
+
+app = Flask(__name__)
+lang = Language(app)
+app.secret_key = 'your_secret_key'
+
+@lang.allowed_languages
+def get_allowed_languages():
+    return ['en', 'es', 'fr']
+
+@lang.default_language
+def get_default_language():
+    return 'en'
+
+@app.route('/api/language')
+def get_language():
+    print(str(current_language))
+    return jsonify({
+        'language': str(current_language),
+    })
 
 primary_manual_translation = {
     "en": {
@@ -123,47 +108,19 @@ primary_manual_translation = {
     },
 }
 
-def pull_label(entity):
-
-    ''' Pull first available label for entity. '''
-
-    label = [o for s,p,o in graph.triples((entity, rdflib.RDFS.label, None)) if o.language == 'en'] # this is where we tweak language for labels
-    if not len(label):
-        return "Label required."
-    else:
-        return str(label[0])
-
-def pull_label_multi(entity, language):
-
-    ''' Pull first available label for entity. '''
-
-    label = [o for s,p,o in graph.triples((entity, rdflib.RDFS.label, None)) if o.language == language] # this is where we tweak language for labels
-    if not len(label):
-        return "Label required."
-    else:
-        return str(label[0])
-
-app = Flask(__name__)
-lang = Language(app)
-app.secret_key = 'your_secret_key'
-
-@lang.allowed_languages
-def get_allowed_languages():
-    return ['en', 'es', 'fr']
-
-@lang.default_language
-def get_default_language():
-    return 'en'
-
-@app.route('/api/language')
-def get_language():
-    print(str(current_language))
-    return jsonify({
-        'language': str(current_language),
-    })
-
 graph = rdflib.Graph()
 graph.parse('https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl', format='ttl')
+
+# manually add some labelling here, for classes eg
+# ideally these should also be translated
+
+for l in ['en', 'es', 'fr']:
+    graph.add((rdflib.URIRef('http://www.w3.org/2002/07/owl#Class'), rdflib.RDFS.label, rdflib.Literal('Class', lang=l)))
+    graph.add((rdflib.URIRef('http://www.w3.org/2002/07/owl#ObjectProperty'), rdflib.RDFS.label, rdflib.Literal('Object Property', lang=l)))
+    graph.add((rdflib.URIRef('http://www.w3.org/2002/07/owl#DatatypeProperty'), rdflib.RDFS.label, rdflib.Literal('Datatype Property', lang=l)))
+
+with open(pathlib.Path.cwd() / 'static' / 'translations.json') as translations:
+    translations = json.load(translations)
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/ontology/', methods=['GET', 'POST'])
@@ -187,13 +144,13 @@ def home_page():
     ]
     
     primary_classes = [rdflib.URIRef(f'https://fiafcore.org/ontology/{x}') for x in primary_classes]
-    primary = [{'uri':x, 'label':pull_label_multi(x, current_language)} for x in primary_classes]
-    entity_dict['primary'] = {'label':elements['primary'][current_language], 'data': primary} 
-    entity_dict['resources'] = {'label':elements['resources'][current_language]}
-    entity_dict['contact'] = {'label':elements['contact'][current_language]}
+    primary = [{'uri':x, 'label':pull_label(x, current_language)} for x in primary_classes]
+    entity_dict['primary'] = {'label':translations[current_language]['primary'], 'data': primary} 
+    entity_dict['resources'] = {'label':translations[current_language]['resources']}
+    entity_dict['contact'] = {'label':translations[current_language]['contact']}
 
     return render_template('homepage.html', 
-        intro=intro[current_language], 
+        intro=translations[current_language], 
         graph=primary_manual_translation[current_language],
         data=entity_dict, 
         lang=current_language)
@@ -202,72 +159,33 @@ def home_page():
 def entity_page(entity):
 
     if request.method == 'POST':
-
-        print('hello', request.form['lang'])
-        lang.change_language(request.form['lang'])
+       lang.change_language(request.form['lang'])
  
-    entity_uri = rdflib.URIRef(f'https://fiafcore.org/ontology/{entity}')
-    entity_dict = {'entity':entity_uri, 'label':pull_label_multi(entity_uri, current_language)} 
-    class_triples = [s for s,p,o in graph.triples((entity_uri, rdflib.RDF.type, rdflib.OWL.Class))]
-    object_property_triples = [s for s,p,o in graph.triples((entity_uri, rdflib.RDF.type, rdflib.OWL.ObjectProperty))]
+    combined_domains = pull_attributes(entity, 'domain', current_language)
+    combined_domains += pull_attributes(entity, 'union_domain', current_language)
+    type_state = pull_attributes(entity, 'class', current_language)[0]['link']
 
-    if len(class_triples):
-
-        entity_type = [{'uri':str(o), 'label':str(o)} for s,p,o in graph.triples((entity_uri, rdflib.RDF.type, None))]
-        entity_dict['entity_type'] = {'label':elements['type'][current_language], 'data':sorted(entity_type, key=lambda d: d['label'])} 
-
-        superclasses = [{'uri':o, 'label':pull_label_multi(o, current_language)} for s,p,o in graph.triples((entity_uri, rdflib.RDFS.subClassOf, None))]
-        entity_dict['superclasses'] = {'label':elements['superclass'][current_language], 'data': sorted(superclasses, key=lambda d: d['label'])} 
-
-        # following two calls are the same and could be a function.
-
-        subclasses = [{'uri':s, 'label':pull_label_multi(s, current_language)} for s,p,o in graph.triples((None, rdflib.RDFS.subClassOf, entity_uri))]
-        entity_dict['subclasses'] = {'label':elements['subclass'][current_language], 'data': sorted(subclasses, key=lambda d: d['label'])} 
-
-        properties = [{'uri':s, 'label':pull_label_multi(s, current_language), 'short':str(s).replace('https://fiafcore.org/ontology/', 'fiaf:')} for s,p,o in graph.triples((None, rdflib.RDFS.domain, entity_uri))]
-        entity_dict['properties'] = {'label':elements['properties'][current_language], 'data': properties}
-        
-        reference = [str(o) for s,p,o in graph.triples((entity_uri, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), None))]
-        entity_dict['reference'] = {'label':elements['reference'][current_language], 'data': reference}
-
-        entity_dict['description'] = {'label':elements['description'][current_language], 'data': ''}
-
-        entity_dict['none'] = {'label':elements['none'][current_language]}
-
-
-        # search_options = [pull_label_multi(s, current_language) for s,p,o in graph.triples((None, rdflib.RDF.type, rdflib.OWL.Class))]
-        # print('search options', search_options )
-        # entity_dict['search_options'] = sorted(search_options)
-        
-        return render_template('class_template.html', data=entity_dict, lang=current_language)
-
-    elif len(object_property_triples):
-
-        entity_type = [{'uri':str(o), 'label':str(o)} for s,p,o in graph.triples((entity_uri, rdflib.RDF.type, None))]
-        entity_dict['entity_type'] = {'label':elements['type'][current_language], 'data':sorted(entity_type, key=lambda d: d['label'])} 
-
-        domains = [{'uri':o, 'label':pull_label_multi(o, current_language)} for s,p,o in graph.triples((entity_uri, rdflib.RDFS.domain, None))]
-        entity_dict['domains'] = {'label':elements['domains'][current_language], 'data': sorted(domains, key=lambda d: d['label'])} 
-
-        ranges = [{'uri':o, 'label':pull_label_multi(o, current_language)} for s,p,o in graph.triples((entity_uri, rdflib.RDFS.range, None))]
-        entity_dict['ranges'] = {'label':elements['ranges'][current_language], 'data': sorted(ranges, key=lambda d: d['label'])} 
-
-        reference = [str(o) for s,p,o in graph.triples((entity_uri, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), None))]
-        entity_dict['reference'] = {'label':elements['reference'][current_language], 'data': reference}
-
-
-
-        entity_dict['description'] = {'label':elements['description'][current_language], 'data': ''}
-
-
-        entity_dict['none'] = {'label':elements['none'][current_language]}
-
-
-        return render_template('property_template.html', data=entity_dict, lang=current_language)
-
+    if str(type_state) == 'http://www.w3.org/2002/07/owl#Class':
+        page_type = 'class'
     else:
+        page_type = 'property'
         
-        return render_template('404.html') 
-        
+    render_data = {'label': pull_attributes(entity, 'label', current_language)[0]}
+    render_data['type_gate'] = str(pull_attributes(entity, 'class', current_language)[0]['link'])
+    render_data['entity_type'] = {'label': translations[current_language]['type'], 'instances': pull_attributes(entity, 'class', current_language)}
+    render_data['reference'] = {'label': translations[current_language]['reference'], 'instances': pull_attributes(entity, 'reference', current_language)}
+    render_data['superclass'] = {'label': translations[current_language]['superclass'], 'instances': pull_attributes(entity, 'superclass', current_language)}
+    render_data['subclass'] = {'label': translations[current_language]['subclass'], 'instances': pull_attributes(entity, 'subclass', current_language)}
+    render_data['properties'] = {'label': translations[current_language]['properties'], 'instances': pull_attributes(entity, 'properties', current_language)}
+    render_data['domain'] = {'label': translations[current_language]['domain'], 'instances': combined_domains}
+    render_data['range'] = {'label': translations[current_language]['range'], 'instances': pull_attributes(entity, 'range', current_language)}
+    render_data['description'] = {'label': translations[current_language]['description'], 'instances': []}
+    render_data['none'] = translations[current_language]['none']
+
+    return render_template('entity_template.html', 
+        lang=current_language, 
+        data=render_data,
+        page_type=page_type)
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
