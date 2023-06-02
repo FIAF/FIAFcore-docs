@@ -78,6 +78,36 @@ def get_language():
         'language': str(current_language),
     })
 
+primary_manual_translation = {
+    "en": {
+        "work": "Work/Variant",
+        "manifestation": "Manifestation",
+        "item": "Item",
+        "carrier": "Carrier",
+        "event": "Event",
+        "activity": "Activity",
+        "agent": "Agent",
+    },
+    "es": {
+        "work": "Obra/Variante", 
+        "manifestation": "Manifestación",
+        "item": "Ítem",
+        "carrier": "Portador",
+        "event": "Evento",
+        "activity": "Actividad",
+        "agent": "Agente",
+    },
+    "fr": {
+        "work": "l'Œuvre/la Variante",
+        "manifestation": "Manifestation",
+        "item": "Item",
+        "carrier": "Article",
+        "event": "Événement",
+        "activity": "Activité",
+        "agent": "Agent"
+    },
+}
+
 graph = rdflib.Graph()
 graph.parse('https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl', format='ttl')
 
@@ -119,7 +149,11 @@ def home_page():
     entity_dict['resources'] = {'label':translations[current_language]['resources']}
     entity_dict['contact'] = {'label':translations[current_language]['contact']}
 
-    return render_template('homepage.html', intro=translations[current_language], data=entity_dict, lang=current_language)
+    return render_template('homepage.html', 
+        intro=translations[current_language], 
+        graph=primary_manual_translation[current_language],
+        data=entity_dict, 
+        lang=current_language)
 
 @app.route('/ontology/<entity>', methods=['GET', 'POST'])
 def entity_page(entity):
