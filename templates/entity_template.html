@@ -45,50 +45,90 @@
     <tspan class="subject-text" text-anchor="left">{{ data.label }}</tspan> <br><br>
 
     <tspan class="key-text">{{ data.entity_type.label }}<br><br>
-      {% for sub in data.entity_type.data %}
-      <a href="{{ sub.uri }}" class="value-text">{{ sub.label }}</a>
+      {% for x in data.entity_type.instances %}
+      <a href="{{ x.link }}" class="value-text">{{ x.label }}</a>
       {% endfor %}
     </tspan><br><br>
 
     <tspan class="key-text">{{ data.reference.label }}<br><br>
-      {% if data.reference.data %}
-      {% for sub in data.reference.data %}
-      <tspan class="blank-text">{{ sub }}</tspan><br>
+      {% if data.reference.instances %}
+      {% for x in data.reference.instances %}
+      <tspan class="blank-text">{{ x }}</tspan><br>
       {% endfor %}
       {% else %}
-      <tspan class="blank-text">{{ data.none.label }}</tspan><br>
+      <tspan class="blank-text">{{ data.none }}</tspan><br>
       {% endif %}
     </tspan><br>
 
-    <tspan class="key-text">{{ data.domains.label }}<br><br>
-      {% if data.domains.data %}
-      {% for sub in data.domains.data %}
-      <a href="{{ sub.uri }}" class="value-text">{{ sub.label }}</a><br>
+    {% if page_type == 'class' %}
+    <tspan class="key-text">{{ data.superclass.label }}<br><br>
+      {% if data.superclass.instances %}
+      {% for x in data.superclass.instances %}
+      <a href="{{ x.link }}" class="value-text">{{ x.label }}</a><br>
       {% endfor %}
       {% else %}
-      <tspan class="blank-text">{{ data.none.label }}</tspan><br>
+      <tspan class="blank-text">{{ data.none }}</tspan><br>
       {% endif %}
     </tspan><br>
+    {% endif %}
 
-    <tspan class="key-text">{{ data.ranges.label }}<br><br>
-      {% if data.ranges.data %}
-      {% for sub in data.ranges.data %}
-      <a href="{{ sub.uri }}" class="value-text">{{ sub.label }}</a><br>
+    {% if page_type == 'class' %}
+    <tspan class="key-text">{{ data.subclass.label }}<br><br>
+      {% if data.subclass.instances %}
+      {% for x in data.subclass.instances %}
+      <a href="{{ x.link }}" class="value-text">{{ x.label }}</a><br>
       {% endfor %}
       {% else %}
-      <tspan class="blank-text">{{ data.none.label }}</tspan><br>
+      <tspan class="blank-text">{{ data.none }}</tspan><br>
       {% endif %}
     </tspan><br>
+    {% endif %}
 
+    {% if page_type == 'class' %}
+    <tspan class="key-text">{{ data.properties.label }}<br><br>
+      {% if data.properties.instances %}
+      {% for x in data.properties.instances %}
+      <a href="{{ x.link }}" class="value-text">{{ x.label }}</a><br>
+      {% endfor %}
+      {% else %}
+      <tspan class="blank-text">{{ data.none }}</tspan><br>
+      {% endif %}
+    </tspan><br>
+    {% endif %}
+
+    {% if page_type != 'class' %}
+    <tspan class="key-text">{{ data.domain.label }}<br><br>
+      {% if data.domain.instances %}
+      {% for x in data.domain.instances %}
+      <a href="{{ x.link }}" class="value-text">{{ x.label }}</a><br>
+      {% endfor %}
+      {% else %}
+      <tspan class="blank-text">{{ data.none }}</tspan><br>
+      {% endif %}
+    </tspan><br>
+    {% endif %}
+
+    {% if page_type != 'class' %}
+    <tspan class="key-text">{{ data.range.label }}<br><br>
+      {% if data.range.instances %}
+      {% for x in data.range.instances %}
+      <a href="{{ x.link }}" class="value-text">{{ x.label }}</a><br>
+      {% endfor %}
+      {% else %}
+      <tspan class="blank-text">{{ data.none }}</tspan><br>
+      {% endif %}
+    </tspan><br>
+    {% endif %}
+    
     <tspan class="key-text">{{ data.description.label }}<br><br>
-      {% if data.description.data %}
-      {% for sub in data.description.data %}
-      <a href="{{ sub.uri }}" class="value-text">{{ sub.label }}</a><br>
+      {% if data.description.instances %}
+      {% for x in data.description.instances %}
+      <a href="{{ x.link }}" class="value-text">{{ x.label }}</a><br>
       {% endfor %}
       {% else %}
-      <tspan class="blank-text">{{ data.none.label }}</tspan><br>
+      <tspan class="blank-text">{{ data.none }}</tspan><br>
       {% endif %}
-    </tspan><br>
+    </tspan><br> 
 
   </div>
   <script>
