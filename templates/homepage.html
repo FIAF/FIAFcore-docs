@@ -81,13 +81,13 @@
     <script>
 
       // things which you should be looking at updating
-      // --- languge terms
+      // --- languge terms - DONE
       // --- mouseover style changes?
       // --- click through to link (should be same window!)
 
       let graph_terms = JSON.parse('{{ graph|tojson() }}')
 
-      
+      console.log('GRAPH', graph_terms)
 
 
 
@@ -99,21 +99,23 @@
       .attr("width", 800)
       .attr("height", 400)
 
-      .style("background-color", "white");
+      .style("background-color", "#eeeeee");
 
 
 
         // okay build your four boxes
 
-    let nodes = [
-      {'label':'WorkVariant', 'x':100, 'y':50}, 
-      {'label':'Manifestation', 'x':100, 'y':150}, 
-      {'label':'Item', 'x':100, 'y':250},
-      {'label':'Carrier', 'x':100, 'y':350}, 
-      {'label':'Event', 'x':350, 'y':200}, 
-      {'label':'Activity', 'x':550, 'y':200}, 
-      {'label':'Agent', 'x':750, 'y':200}
-    ]
+    let nodes = graph_terms['nodes']
+    
+    // [
+    //   {'label':'WorkVariant', 'x':100, 'y':50}, 
+    //   {'label':'Manifestation', 'x':100, 'y':150}, 
+    //   {'label':'Item', 'x':100, 'y':250},
+    //   {'label':'Carrier', 'x':100, 'y':350}, 
+    //   {'label':'Event', 'x':350, 'y':200}, 
+    //   {'label':'Activity', 'x':550, 'y':200}, 
+    //   {'label':'Agent', 'x':750, 'y':200}
+    // ]
 
 
 
@@ -124,7 +126,7 @@
         .data(nodes)
         .join('text')
         .attr("class", "entity_text")
-        .attr("id", d => 'node_'+d.label)
+        .attr("id", d => 'node_'+d.handle)
         .attr('x', d => d.x)
         .attr('y', d => d.y)
         .attr('font-family', 'Quicksand')
@@ -136,29 +138,30 @@
         .attr('fill', 'black')
         .text(d => d.label)
 
-       nodes.forEach((d) => d.box = d3.select("#node_"+d.label).node().getBBox())
+       nodes.forEach((d) => d.box = d3.select("#node_"+d.handle).node().getBBox())
  
 
-
+       let links = graph_terms['links']
     
-        let links = [
-          {'source':'WorkVariant', 'target':'Manifestation', 'label':'Has Manfestation'}, 
-          {'source':'Manifestation', 'target':'Item', 'label':'Has Item'}, 
-          {'source':'Item', 'target':'Carrier', 'label':'Has Carrier'}, 
-          {'source':'WorkVariant', 'target':'Event', 'label':'Has Event'}, 
-          {'source':'Manifestation', 'target':'Event', 'label':'Has Event'}, 
-          {'source':'Item', 'target':'Event', 'label':'Has Event'}, 
-          {'source':'Carrier', 'target':'Event', 'label':'Has Event'}, 
-          {'source':'Event', 'target':'Activity', 'label':'Has Activity'}, 
-          {'source':'Activity', 'target':'Agent', 'label':'Has Agent'}, 
-        ]
+    
+        // let links = [
+        //   {'source':'WorkVariant', 'target':'Manifestation', 'label':'Has Manfestation'}, 
+        //   {'source':'Manifestation', 'target':'Item', 'label':'Has Item'}, 
+        //   {'source':'Item', 'target':'Carrier', 'label':'Has Carrier'}, 
+        //   {'source':'WorkVariant', 'target':'Event', 'label':'Has Event'}, 
+        //   {'source':'Manifestation', 'target':'Event', 'label':'Has Event'}, 
+        //   {'source':'Item', 'target':'Event', 'label':'Has Event'}, 
+        //   {'source':'Carrier', 'target':'Event', 'label':'Has Event'}, 
+        //   {'source':'Event', 'target':'Activity', 'label':'Has Activity'}, 
+        //   {'source':'Activity', 'target':'Agent', 'label':'Has Agent'}, 
+        // ]
 
-        links.forEach((d) => d.x1 = nodes.filter((x) => x['label'] == d['source'])[0]['x'])
-        links.forEach((d) => d.y1 = nodes.filter((x) => x['label'] == d['source'])[0]['y'])
-        links.forEach((d) => d.x2 = nodes.filter((x) => x['label'] == d['target'])[0]['x'])
-        links.forEach((d) => d.y2 = nodes.filter((x) => x['label'] == d['target'])[0]['y'])
+        links.forEach((d) => d.x1 = nodes.filter((x) => x['handle'] == d['source'])[0]['x'])
+        links.forEach((d) => d.y1 = nodes.filter((x) => x['handle'] == d['source'])[0]['y'])
+        links.forEach((d) => d.x2 = nodes.filter((x) => x['handle'] == d['target'])[0]['x'])
+        links.forEach((d) => d.y2 = nodes.filter((x) => x['handle'] == d['target'])[0]['y'])
 
-        console.log(links)
+        // console.log(links)
 
         d3.select('#canvas')
         .selectAll('.links_yes')
@@ -173,7 +176,7 @@
         links.forEach((d) => d.x3 = (d.x1+d.x2)/2)
         links.forEach((d) => d.y3 = (d.y1+d.y2)/2)
 
-        console.log(links)
+        // console.log(links)
 
 
 
@@ -199,7 +202,7 @@
         .data(nodes)
         .join('text')
         .attr("class", "entity_text2")
-        .attr("id", d => d.label)
+        .attr("id", d => d.handle)
         .attr('x', d => d.x)
         .attr('y', d => d.y)
         .attr('font-family', 'Quicksand')
@@ -229,17 +232,11 @@
         .attr('fill', 'none')
         .text(d => d.label)
 
-        // links.forEach((d) => d.x1 = nodes.filter((x) => x['label'] == d['source'])[0]['x'])
-        // links.forEach((d) => d.y1 = nodes.filter((x) => x['label'] == d['source'])[0]['y'])
-        // links.forEach((d) => d.x2 = nodes.filter((x) => x['label'] == d['target'])[0]['x'])
-        // links.forEach((d) => d.y2 = nodes.filter((x) => x['label'] == d['target'])[0]['y'])
 
-        console.log(links)
 
         links.forEach((d,i) => d.box = d3.select("#link_"+i).node().getBBox())
  
-        console.log(links)
-
+   
 
         d3.select('#canvas')
         .selectAll('.link_blocks')
@@ -250,9 +247,9 @@
         .attr('height', d => d.box.height)
         .attr('x', d => d.box.x)
         .attr('y', d => d.box.y)
-        .attr('stroke', 'white')
+        .attr('stroke', '#eeeeee')
         .attr('stroke-width', '2px')
-        .attr('fill', 'white');
+        .attr('fill', '#eeeeee');
 
 
 
@@ -261,14 +258,12 @@
         .data(links)
         .join('text')
         .attr("class", "links_text2")
-        // .attr("id", (d,i) => 'link_'+i)
         .attr('x', d => d.x3)
         .attr('y', d => d.y3)
         .attr('font-family', 'Quicksand')
         .attr('font-size', '12px')
         .attr('font-weight', '100')
         .attr('text-anchor', 'middle')
-
         .attr('alignment-baseline', 'middle')
         .attr('stroke', 'black')
         .attr('fill', 'none')
@@ -276,128 +271,6 @@
 
 
 
-
-      // old force directed graph
-
-      // var width = 800, height = 400
-      
-      // canvas = d3
-      //   .select("#paper")
-      //   .append("svg")
-      //   .attr("id", "canvas")
-      //   .attr("width", width)
-      //   .attr("height", height)
-      //   .style("background-color", 'white');
-        
-      // var nodes = [
-      //   {term: 'work', link: 'WorkVariant'},
-      //   {term: 'manifestation', link: 'Manifestation'},
-      //   {term: 'carrier', link: 'Carrier'},
-      //   {term: 'item', link: 'Item'},
-      //   {term: 'event', link: 'Event'},
-      //   {term: 'activity', link: 'Activity'},
-      //   {term: 'agent', link: 'Agent'},
-      // ]
-
-      // console.log('nodes', nodes)
-      
-      // var links = [
-      //   {source: 0, target: 1, name:'Has Manifestation'},
-      //   {source: 1, target: 2, name:'Has Item'},
-      //   {source: 2, target: 3, name:'Has Carrier'},
-      //   {source: 0, target: 4, name:'Has Event'},
-      //   {source: 1, target: 4, name:'Has Event'},
-      //   {source: 2, target: 4, name:'Has Event'},
-      //   {source: 3, target: 4, name:'Has Event'},
-      //   {source: 4, target: 5, name:'Has Activity'},
-      //   {source: 5, target: 6, name:'Has Agent'},
-      // ]
-      
-      // var simulation2 = d3.forceSimulation(nodes)
-      //   .force("x",d3.forceX(width/2).strength(0.4))
-      //   .force("y",d3.forceY(height/2).strength(0.6))
-      //   .force("charge",d3.forceManyBody().strength(-10000))
-      //   .force("collide",d3.forceCollide().radius(d => d.r * -10))
-      //   .force('link', d3.forceLink().links(links))
-      //   .on('tick', render);
-        
-      // function render() {
-        
-      //   d3.select('#canvas')
-      //     .selectAll('line')
-      //     .data(links)
-      //     .join('line')
-      //     .attr("class", "my_lines")
-      //     .attr('x1', d => d.source.x)
-      //     .attr('y1', d => d.source.y)
-      //     .attr('x2', d => d.target.x)
-      //     .attr('y2', d => d.target.y)
-      //     .attr('stroke', 'black')
-      //     .attr('stroke-width', '0.5');
-          
-      //   d3.select('#canvas')
-      //     .selectAll('.my_circles')
-      //     .data(nodes)
-      //     .join('circle')
-      //     .attr("class", d => "my_circles node_"+d.term)
-      //     .attr('r', 10)
-      //     .attr('cx', d => d.x)
-      //     .attr('cy', d => d.y)
-      //     .attr('fill', '#3AB795')
-      //     .style('stroke', 'black')
-      //     .on('mouseover', function(e, d) {
-      //       d3.selectAll('.my_circles').attr('opacity', 0.2)
-      //       d3.selectAll('.circle_label').attr('opacity', 0.2)
-      //       d3.selectAll('.my_lines').attr('opacity', 0.2)
-      //       d3.selectAll('.node_'+d.term).attr('opacity', 1)
-      //     })    
-      //     .on('mouseout', function(e, d) {
-      //       d3.selectAll('.my_circles').attr('opacity', 1)
-      //       d3.selectAll('.circle_label').attr('opacity', 1)
-      //       d3.selectAll('.my_lines').attr('opacity', 1)
-      //     })     
-      //     .on('click', function(e, d) {
-      //       let link = 'https://fiafcore.org/ontology/'+d.link
-      //       console.log('GOOOOO', d.link, link)
-      //       window.open(link)
-
-      //     })    
-
-        
-      //   d3.select('#canvas')
-      //     .selectAll('.circle_label')
-      //     .data(nodes)
-      //     .join('text')
-      //     .attr("class", d => "circle_label node_"+d.term)
-      //     .style("text-anchor", "start")
-      //     .style("alignment-baseline", "middle")
-      //     .attr('r', 5)
-      //     .attr('x', d => d.x+12)
-      //     .attr('y', d => d.y+1)
-      //     .text(d => graph_terms[d.term])
-      //     .attr('fill', 'black')
-
-      // //   var u = d3.select('#canvas')
-      // //   .selectAll('.link_label')
-      // //   .data(links)
-      // //   .join('text')
-      // //   .attr("class", "link_label")
-      // //   .attr('r', 5)
-      // //   .attr('x', function(d) {
-      // //     return (d.source.x+d.target.x)/2
-      // //   })
-      // //   .attr('y', function(d) {
-      // //     return (d.source.y+d.target.y)/2
-      // //   })
-      // //   .text(d => d.name)
-      // //   .attr('fill', 'black')
-      // //   .attr('font-weight', 100)
-        
-      // //   .style("text-anchor", "middle")
-      // // .style("alignment-baseline", "middle")
-      // //   ;
-
-// }
     
     
     </script>
