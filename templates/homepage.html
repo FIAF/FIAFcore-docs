@@ -42,27 +42,14 @@
     <div id="title-box" style="background:white;padding-top: 80px;width:800px;margin: auto">
 
         <tspan class="subject-text" text-anchor="left">FIAFcore</tspan><br><br>
-        <!-- <div id="paper"></div> -->
+
         <tspan class="blank-text">
           <a href="https://fiafcore.org/" class="value-text">{{ intro.link1 }}</a>{{ intro.text1 }}
           <a href="https://www.fiafnet.org/pages/E-Resources/Cataloguing-Manual.html" class="value-text">{{ intro.link2 }}</a>{{ intro.text2 }}        
         </tspan><br><br>
 
-
         <tspan class="key-text">{{ data.primary.label }}<br><br>
-
           <div id="paper"></div>
-
-
-  <!-- <div id="paper"></d÷iv> -->
-     
-
-          <!-- {% for sub in data.primary.data %}
-          <a href="{{ sub.uri }}" class="value-text">{{ sub.label }}</a><br>
-          {% endfor %}
-         -->
-        
-        
         </tspan><br>
 
         <tspan class="key-text">{{ data.resources.label}}<br><br>
@@ -76,52 +63,27 @@
 
     </div>
 
-
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-
       // things which you should be looking at updating
       // --- languge terms - DONE
-      // --- mouseover style changes?
+      // --- mouseover style changes - DONE
       // --- click through to link (should be same window!)
 
       let graph_terms = JSON.parse('{{ graph|tojson() }}')
 
-      console.log('GRAPH', graph_terms)
-
-
-
       const curve = d3.line().curve(d3.curveBumpX);
+      
+      d3.select("#paper")
+        .append("svg")
+        .attr("id", "canvas")
+        .attr("width", 800)
+        .attr("height", 400)
+        .style("background-color", "#eeeeee");
 
-    d3.select("#paper")
-      .append("svg")
-      .attr("id", "canvas")
-      .attr("width", 800)
-      .attr("height", 400)
-
-      .style("background-color", "#eeeeee");
-
-
-
-        // okay build your four boxes
-
-    let nodes = graph_terms['nodes']
+      let nodes = graph_terms['nodes']
     
-    // [
-    //   {'label':'WorkVariant', 'x':100, 'y':50}, 
-    //   {'label':'Manifestation', 'x':100, 'y':150}, 
-    //   {'label':'Item', 'x':100, 'y':250},
-    //   {'label':'Carrier', 'x':100, 'y':350}, 
-    //   {'label':'Event', 'x':350, 'y':200}, 
-    //   {'label':'Activity', 'x':550, 'y':200}, 
-    //   {'label':'Agent', 'x':750, 'y':200}
-    // ]
-
-
-
-
-
-        d3.select('#canvas')
+      d3.select('#canvas')
         .selectAll('.entity_text')
         .data(nodes)
         .join('text')
@@ -138,32 +100,15 @@
         .attr('fill', 'black')
         .text(d => d.label)
 
-       nodes.forEach((d) => d.box = d3.select("#node_"+d.handle).node().getBBox())
+      nodes.forEach((d) => d.box = d3.select("#node_"+d.handle).node().getBBox())
  
+      let links = graph_terms['links']
+      links.forEach((d) => d.x1 = nodes.filter((x) => x['handle'] == d['source'])[0]['x'])
+      links.forEach((d) => d.y1 = nodes.filter((x) => x['handle'] == d['source'])[0]['y'])
+      links.forEach((d) => d.x2 = nodes.filter((x) => x['handle'] == d['target'])[0]['x'])
+      links.forEach((d) => d.y2 = nodes.filter((x) => x['handle'] == d['target'])[0]['y'])
 
-       let links = graph_terms['links']
-    
-    
-        // let links = [
-        //   {'source':'WorkVariant', 'target':'Manifestation', 'label':'Has Manfestation'}, 
-        //   {'source':'Manifestation', 'target':'Item', 'label':'Has Item'}, 
-        //   {'source':'Item', 'target':'Carrier', 'label':'Has Carrier'}, 
-        //   {'source':'WorkVariant', 'target':'Event', 'label':'Has Event'}, 
-        //   {'source':'Manifestation', 'target':'Event', 'label':'Has Event'}, 
-        //   {'source':'Item', 'target':'Event', 'label':'Has Event'}, 
-        //   {'source':'Carrier', 'target':'Event', 'label':'Has Event'}, 
-        //   {'source':'Event', 'target':'Activity', 'label':'Has Activity'}, 
-        //   {'source':'Activity', 'target':'Agent', 'label':'Has Agent'}, 
-        // ]
-
-        links.forEach((d) => d.x1 = nodes.filter((x) => x['handle'] == d['source'])[0]['x'])
-        links.forEach((d) => d.y1 = nodes.filter((x) => x['handle'] == d['source'])[0]['y'])
-        links.forEach((d) => d.x2 = nodes.filter((x) => x['handle'] == d['target'])[0]['x'])
-        links.forEach((d) => d.y2 = nodes.filter((x) => x['handle'] == d['target'])[0]['y'])
-
-        // console.log(links)
-
-        d3.select('#canvas')
+      d3.select('#canvas')
         .selectAll('.links_yes')
         .data(links)
         .join('path')
@@ -172,18 +117,10 @@
         .attr('stroke', 'black')
         .attr('fill', 'none');
 
+      links.forEach((d) => d.x3 = (d.x1+d.x2)/2)
+      links.forEach((d) => d.y3 = (d.y1+d.y2)/2)
 
-        links.forEach((d) => d.x3 = (d.x1+d.x2)/2)
-        links.forEach((d) => d.y3 = (d.y1+d.y2)/2)
-
-        // console.log(links)
-
-
-
-
-
-
-        d3.select('#canvas')
+      d3.select('#canvas')
         .selectAll('.entity_blocks')
         .data(nodes)
         .join('rect')
@@ -194,15 +131,22 @@
         .attr('y', d => d.box.y-10)
         .attr('stroke', 'black')
         .attr('stroke-width', '2px')
-        .attr('fill', 'white');
+        .attr('fill', 'white')
+        .on("mouseover", function(k,d) {
+          d3.select(this).attr('fill', 'black')
+          d3.select('#'+d.handle+'box_text').attr('stroke', 'white')
+        })
+        .on("mouseout", function() {
+          d3.selectAll('.entity_blocks').attr('fill', 'white')
+          d3.selectAll('.entity_text2').attr('stroke', 'black')
+        })
 
-    
-        d3.select('#canvas')
+      d3.select('#canvas')
         .selectAll('.entity_text2')
         .data(nodes)
         .join('text')
         .attr("class", "entity_text2")
-        .attr("id", d => d.handle)
+        .attr("id", d => d.handle+'box_text')
         .attr('x', d => d.x)
         .attr('y', d => d.y)
         .attr('font-family', 'Quicksand')
@@ -213,9 +157,9 @@
         .attr('stroke', 'black')
         .attr('fill', 'black')
         .text(d => d.label)
-  
+        .style('pointer-events', 'none')
 
-        d3.select('#canvas')
+      d3.select('#canvas')
         .selectAll('.links_text')
         .data(links)
         .join('text')
@@ -231,14 +175,10 @@
         .attr('stroke', 'black')
         .attr('fill', 'none')
         .text(d => d.label)
+      
+      links.forEach((d,i) => d.box = d3.select("#link_"+i).node().getBBox())
 
-
-
-        links.forEach((d,i) => d.box = d3.select("#link_"+i).node().getBBox())
- 
-   
-
-        d3.select('#canvas')
+      d3.select('#canvas')
         .selectAll('.link_blocks')
         .data(links)
         .join('rect')
@@ -251,9 +191,7 @@
         .attr('stroke-width', '2px')
         .attr('fill', '#eeeeee');
 
-
-
-        d3.select('#canvas')
+      d3.select('#canvas')
         .selectAll('.links_text2')
         .data(links)
         .join('text')
@@ -269,10 +207,6 @@
         .attr('fill', 'none')
         .text(d => d.label)
 
-
-
-    
-    
     </script>
     <script>
 
