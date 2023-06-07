@@ -84,42 +84,49 @@ primary_manual_translation = {
             {
                 "handle": "work",
                 "label": "Work/Variant",
+                "url": "WorkVariant",
                 "x": 100,
                 "y": 50
             },
             {
                 "handle": "manifestation",
                 "label": "Manifestation",
+                "url": "Manifestation",
                 "x": 100,
                 "y": 150
             },
             {
                 "handle": "item",
                 "label": "Item",
+                "url": "Item",
                 "x": 100,
                 "y": 250
             },
             {
                 "handle": "carrier",
                 "label": "Carrier",
+                "url": "Carrier",
                 "x": 100,
                 "y": 350
             },
             {
                 "handle": "event",
                 "label": "Event",
+                "url": "Event",
                 "x": 350,
                 "y": 200
             },
             {
                 "handle": "activity",
                 "label": "Activity",
+                "url": "Activity",
                 "x": 550,
                 "y": 200
             },
             {
                 "handle": "agent",
                 "label": "Agent",
+                "url": "Agent",
                 "x": 750,
                 "y": 200
             }
@@ -177,42 +184,49 @@ primary_manual_translation = {
             {
                 "handle": "work",
                 "label": "Obra/Variante",
+                "url": "WorkVariant",
                 "x": 100,
                 "y": 50
             },
             {
                 "handle": "manifestation",
                 "label": "Manifestación",
+                "url": "Manifestation",
                 "x": 100,
                 "y": 150
             },
             {
                 "handle": "item",
                 "label": "Ítem",
+                "url": "Item",
                 "x": 100,
                 "y": 250
             },
             {
                 "handle": "carrier",
                 "label": "Portador",
+                "url": "Carrier",
                 "x": 100,
                 "y": 350
             },
             {
                 "handle": "event",
                 "label": "Evento",
+                "url": "Event",
                 "x": 350,
                 "y": 200
             },
             {
                 "handle": "activity",
                 "label": "Actividad",
+                "url": "Activity",
                 "x": 550,
                 "y": 200
             },
             {
                 "handle": "agent",
                 "label": "Agente",
+                "url": "Agent",
                 "x": 750,
                 "y": 200
             }
@@ -270,42 +284,49 @@ primary_manual_translation = {
             {
                 "handle": "work",
                 "label": "l'Œuvre/la Variante",
+                "url": "WorkVariant",
                 "x": 100,
                 "y": 50
             },
             {
                 "handle": "manifestation",
                 "label": "Manifestation",
+                "url": "Manifestation",
                 "x": 100,
                 "y": 150
             },
             {
                 "handle": "item",
                 "label": "Item",
+                "url": "Item",
                 "x": 100,
                 "y": 250
             },
             {
                 "handle": "carrier",
                 "label": "Article",
+                "url": "Carrier",
                 "x": 100,
                 "y": 350
             },
             {
                 "handle": "event",
                 "label": "Événement",
+                "url": "Event",
                 "x": 350,
                 "y": 200
             },
             {
                 "handle": "activity",
                 "label": "Activité",
+                "url": "Activity",
                 "x": 550,
                 "y": 200
             },
             {
                 "handle": "agent",
                 "label": "Agent",
+                "url": "Agent",
                 "x": 750,
                 "y": 200
             }

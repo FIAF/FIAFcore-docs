@@ -140,6 +140,7 @@
           d3.selectAll('.entity_blocks').attr('fill', 'white')
           d3.selectAll('.entity_text2').attr('stroke', 'black')
         })
+        .on("click", function(k, d) { window.open("https://fiafcore.org/ontology/"+d.url,"_self"); });
 
       d3.select('#canvas')
         .selectAll('.entity_text2')
