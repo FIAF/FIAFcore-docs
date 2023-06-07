@@ -80,33 +80,308 @@ def get_language():
 
 primary_manual_translation = {
     "en": {
-        "work": "Work/Variant",
-        "manifestation": "Manifestation",
-        "item": "Item",
-        "carrier": "Carrier",
-        "event": "Event",
-        "activity": "Activity",
-        "agent": "Agent",
+        "nodes": [
+            {
+                "handle": "work",
+                "label": "Work/Variant",
+                "url": "WorkVariant",
+                "x": 100,
+                "y": 50
+            },
+            {
+                "handle": "manifestation",
+                "label": "Manifestation",
+                "url": "Manifestation",
+                "x": 100,
+                "y": 150
+            },
+            {
+                "handle": "item",
+                "label": "Item",
+                "url": "Item",
+                "x": 100,
+                "y": 250
+            },
+            {
+                "handle": "carrier",
+                "label": "Carrier",
+                "url": "Carrier",
+                "x": 100,
+                "y": 350
+            },
+            {
+                "handle": "event",
+                "label": "Event",
+                "url": "Event",
+                "x": 350,
+                "y": 200
+            },
+            {
+                "handle": "activity",
+                "label": "Activity",
+                "url": "Activity",
+                "x": 550,
+                "y": 200
+            },
+            {
+                "handle": "agent",
+                "label": "Agent",
+                "url": "Agent",
+                "x": 750,
+                "y": 200
+            }
+        ],
+        "links": [
+            {
+                "source": "work",
+                "target": "manifestation",
+                "label": "Has Manfestation"
+            },
+            {
+                "source": "manifestation",
+                "target": "item",
+                "label": "Has Item"
+            },
+            {
+                "source": "item",
+                "target": "carrier",
+                "label": "Has Carrier"
+            },
+            {
+                "source": "work",
+                "target": "event",
+                "label": "Has Event"
+            },
+            {
+                "source": "manifestation",
+                "target": "event",
+                "label": "Has Event"
+            },
+            {
+                "source": "item",
+                "target": "event",
+                "label": "Has Event"
+            },
+            {
+                "source": "carrier",
+                "target": "event",
+                "label": "Has Event"
+            },
+            {
+                "source": "event",
+                "target": "activity",
+                "label": "Has Activity"
+            },
+            {
+                "source": "activity",
+                "target": "agent",
+                "label": "Has Agent"
+            }
+        ]
     },
     "es": {
-        "work": "Obra/Variante", 
-        "manifestation": "Manifestación",
-        "item": "Ítem",
-        "carrier": "Portador",
-        "event": "Evento",
-        "activity": "Actividad",
-        "agent": "Agente",
+        "nodes": [
+            {
+                "handle": "work",
+                "label": "Obra/Variante",
+                "url": "WorkVariant",
+                "x": 100,
+                "y": 50
+            },
+            {
+                "handle": "manifestation",
+                "label": "Manifestación",
+                "url": "Manifestation",
+                "x": 100,
+                "y": 150
+            },
+            {
+                "handle": "item",
+                "label": "Ítem",
+                "url": "Item",
+                "x": 100,
+                "y": 250
+            },
+            {
+                "handle": "carrier",
+                "label": "Portador",
+                "url": "Carrier",
+                "x": 100,
+                "y": 350
+            },
+            {
+                "handle": "event",
+                "label": "Evento",
+                "url": "Event",
+                "x": 350,
+                "y": 200
+            },
+            {
+                "handle": "activity",
+                "label": "Actividad",
+                "url": "Activity",
+                "x": 550,
+                "y": 200
+            },
+            {
+                "handle": "agent",
+                "label": "Agente",
+                "url": "Agent",
+                "x": 750,
+                "y": 200
+            }
+        ],
+        "links": [
+            {
+                "source": "work",
+                "target": "manifestation",
+                "label": "Tiene una Manifestación"
+            },
+            {
+                "source": "manifestation",
+                "target": "item",
+                "label": "Tiene un Item"
+            },
+            {
+                "source": "item",
+                "target": "carrier",
+                "label": "Tiene Portador"
+            },
+            {
+                "source": "work",
+                "target": "event",
+                "label": "Tiene un Evento"
+            },
+            {
+                "source": "manifestation",
+                "target": "event",
+                "label": "Tiene un Evento"
+            },
+            {
+                "source": "item",
+                "target": "event",
+                "label": "Tiene un Evento"
+            },
+            {
+                "source": "carrier",
+                "target": "event",
+                "label": "Tiene un Evento"
+            },
+            {
+                "source": "event",
+                "target": "activity",
+                "label": "Tiene Actividad"
+            },
+            {
+                "source": "activity",
+                "target": "agent",
+                "label": "Tiene un Agente"
+            }
+        ]
     },
     "fr": {
-        "work": "l'Œuvre/la Variante",
-        "manifestation": "Manifestation",
-        "item": "Item",
-        "carrier": "Article",
-        "event": "Événement",
-        "activity": "Activité",
-        "agent": "Agent"
-    },
+        "nodes": [
+            {
+                "handle": "work",
+                "label": "l'Œuvre/la Variante",
+                "url": "WorkVariant",
+                "x": 100,
+                "y": 50
+            },
+            {
+                "handle": "manifestation",
+                "label": "Manifestation",
+                "url": "Manifestation",
+                "x": 100,
+                "y": 150
+            },
+            {
+                "handle": "item",
+                "label": "Item",
+                "url": "Item",
+                "x": 100,
+                "y": 250
+            },
+            {
+                "handle": "carrier",
+                "label": "Article",
+                "url": "Carrier",
+                "x": 100,
+                "y": 350
+            },
+            {
+                "handle": "event",
+                "label": "Événement",
+                "url": "Event",
+                "x": 350,
+                "y": 200
+            },
+            {
+                "handle": "activity",
+                "label": "Activité",
+                "url": "Activity",
+                "x": 550,
+                "y": 200
+            },
+            {
+                "handle": "agent",
+                "label": "Agent",
+                "url": "Agent",
+                "x": 750,
+                "y": 200
+            }
+        ],
+        "links": [
+            {
+                "source": "work",
+                "target": "manifestation",
+                "label": "A une Manifestation"
+            },
+            {
+                "source": "manifestation",
+                "target": "item",
+                "label": "A un Item"
+            },
+            {
+                "source": "item",
+                "target": "carrier",
+                "label": "A un Article"
+            },
+            {
+                "source": "work",
+                "target": "event",
+                "label": "A un Évènement"
+            },
+            {
+                "source": "manifestation",
+                "target": "event",
+                "label": "A un Évènement"
+            },
+            {
+                "source": "item",
+                "target": "event",
+                "label": "A un Évènement"
+            },
+            {
+                "source": "carrier",
+                "target": "event",
+                "label": "A un Évènement"
+            },
+            {
+                "source": "event",
+                "target": "activity",
+                "label": "A une Activité"
+            },
+            {
+                "source": "activity",
+                "target": "agent",
+                "label": "A un Agent"
+            }
+        ]
+    }
 }
+
+
 
 graph = rdflib.Graph()
 graph.parse('https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl', format='ttl')
