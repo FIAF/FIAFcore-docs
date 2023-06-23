@@ -386,6 +386,27 @@ primary_manual_translation = {
 graph = rdflib.Graph()
 graph.parse('https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl', format='ttl')
 
+# parsing work to remove all unionOf nodes
+# while these are required in the ontology, they would be confusing in the documentation
+
+query = ''' 
+    select ?subject ?union_domain where {
+        ?subject rdfs:domain ?domain .
+        ?domain owl:unionOf ?a .
+        ?a rdf:rest*/rdf:first ?union_domain .
+    } '''
+
+# add direct domain statements
+
+for a, b in graph.query(query):
+    graph.add((a, rdflib.RDFS.domain, b))
+
+# remove blank node statements
+
+for a,b,c in graph.triples((None, None, None)):
+    if type(a) == type(rdflib.BNode('')) or type(b) == type(rdflib.BNode('')):
+        graph.remove(( a, b, c))
+
 # manually add some labelling here, for classes eg
 # ideally these should also be translated
 
