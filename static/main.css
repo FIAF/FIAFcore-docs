@@ -2,7 +2,7 @@
 .nav-container {
   width: 100%;
   height: 70px;
-  background-color: #E30521;
+  background-color: #3AB795;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row
@@ -11,7 +11,7 @@
 .nav-item {
   width: 100px;
   height: 50px;
-  background-color: #E30521;
+  background-color: #3AB795;
   /* margin: 10px; */
   margin-left: 20px;
   margin-right: 20px;
@@ -35,7 +35,7 @@
 .language-selector{
 
   text-decoration: none;
-  background: #E30521;
+  background: #3AB795;
   border: 0px transparent;
   width: 100px;
   height:20px;
@@ -83,7 +83,7 @@
   font-weight: 400;
   font-size: 16px;
   text-anchor: start;
-  color: #E30521;
+  color: #3AB795;
   text-decoration: none;
 }
 
@@ -126,7 +126,7 @@
   /* overflow-y:hidden; */
   background-color: white;
   width: 150px;
-  border: 1px solid #E30521;
+  border: 1px solid #3AB795;
 }
 
 .dropdown-content a {
