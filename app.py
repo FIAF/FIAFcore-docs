@@ -407,6 +407,17 @@ for a,b,c in graph.triples((None, None, None)):
     if type(a) == type(rdflib.BNode('')) or type(b) == type(rdflib.BNode('')):
         graph.remove(( a, b, c))
 
+# legal entities
+
+entities = []
+for entity_type in [rdflib.OWL.Class, rdflib.OWL.DatatypeProperty, rdflib.OWL.ObjectProperty]:
+    for s,p,o in graph.triples((None, rdflib.RDF.type, entity_type)):
+        entities.append(pathlib.Path(s).name)
+        
+
+    
+# render markdown
+
 # manually add some labelling here, for classes eg
 # ideally these should also be translated
 
@@ -454,34 +465,37 @@ def home_page():
 @app.route('/ontology/<entity>', methods=['GET', 'POST'])
 def entity_page(entity):
 
-    if request.method == 'POST':
-       lang.change_language(request.form['lang'])
- 
-    combined_domains = pull_attributes(entity, 'domain', current_language)
-    combined_domains += pull_attributes(entity, 'union_domain', current_language)
-    type_state = pull_attributes(entity, 'class', current_language)[0]['link']
+    if entity in entities:
+        if request.method == 'POST':
+            lang.change_language(request.form['lang'])
+    
+        combined_domains = pull_attributes(entity, 'domain', current_language)
+        combined_domains += pull_attributes(entity, 'union_domain', current_language)
+        type_state = pull_attributes(entity, 'class', current_language)[0]['link']
 
-    if str(type_state) == 'http://www.w3.org/2002/07/owl#Class':
-        page_type = 'class'
+        if str(type_state) == 'http://www.w3.org/2002/07/owl#Class':
+            page_type = 'class'
+        else:
+            page_type = 'property'
+            
+        render_data = {'label': pull_attributes(entity, 'label', current_language)[0]}
+        render_data['type_gate'] = str(pull_attributes(entity, 'class', current_language)[0]['link'])
+        render_data['entity_type'] = {'label': translations[current_language]['type'], 'instances': pull_attributes(entity, 'class', current_language)}
+        render_data['reference'] = {'label': translations[current_language]['reference'], 'instances': pull_attributes(entity, 'reference', current_language)}
+        render_data['superclass'] = {'label': translations[current_language]['superclass'], 'instances': pull_attributes(entity, 'superclass', current_language)}
+        render_data['subclass'] = {'label': translations[current_language]['subclass'], 'instances': pull_attributes(entity, 'subclass', current_language)}
+        render_data['properties'] = {'label': translations[current_language]['properties'], 'instances': pull_attributes(entity, 'properties', current_language)}
+        render_data['domain'] = {'label': translations[current_language]['domain'], 'instances': combined_domains}
+        render_data['range'] = {'label': translations[current_language]['range'], 'instances': pull_attributes(entity, 'range', current_language)}
+        render_data['description'] = {'label': translations[current_language]['description'], 'instances': []}
+        render_data['none'] = translations[current_language]['none']
+
+        return render_template('entity_template.html', 
+            lang=current_language, 
+            data=render_data,
+            page_type=page_type)
     else:
-        page_type = 'property'
-        
-    render_data = {'label': pull_attributes(entity, 'label', current_language)[0]}
-    render_data['type_gate'] = str(pull_attributes(entity, 'class', current_language)[0]['link'])
-    render_data['entity_type'] = {'label': translations[current_language]['type'], 'instances': pull_attributes(entity, 'class', current_language)}
-    render_data['reference'] = {'label': translations[current_language]['reference'], 'instances': pull_attributes(entity, 'reference', current_language)}
-    render_data['superclass'] = {'label': translations[current_language]['superclass'], 'instances': pull_attributes(entity, 'superclass', current_language)}
-    render_data['subclass'] = {'label': translations[current_language]['subclass'], 'instances': pull_attributes(entity, 'subclass', current_language)}
-    render_data['properties'] = {'label': translations[current_language]['properties'], 'instances': pull_attributes(entity, 'properties', current_language)}
-    render_data['domain'] = {'label': translations[current_language]['domain'], 'instances': combined_domains}
-    render_data['range'] = {'label': translations[current_language]['range'], 'instances': pull_attributes(entity, 'range', current_language)}
-    render_data['description'] = {'label': translations[current_language]['description'], 'instances': []}
-    render_data['none'] = translations[current_language]['none']
-
-    return render_template('entity_template.html', 
-        lang=current_language, 
-        data=render_data,
-        page_type=page_type)
+        return render_template('404.html')
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
