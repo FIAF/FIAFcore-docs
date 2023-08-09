@@ -414,8 +414,6 @@ for entity_type in [rdflib.OWL.Class, rdflib.OWL.DatatypeProperty, rdflib.OWL.Ob
     for s,p,o in graph.triples((None, rdflib.RDF.type, entity_type)):
         entities.append(pathlib.Path(s).name)
         
-
-    
 # render markdown
 
 # manually add some labelling here, for classes eg
@@ -496,6 +494,10 @@ def entity_page(entity):
             page_type=page_type)
     else:
         return render_template('404.html')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

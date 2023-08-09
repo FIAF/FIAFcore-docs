@@ -87,7 +87,15 @@
   text-decoration: none;
 }
 
-
+.error-text {
+  fill: #ffffff;
+  font-family: "Quicksand";
+  font-weight: 100;
+  font-size: 32px;
+  text-anchor: start;
+  color: black;
+  text-decoration: none;
+}
 
 #searchinput {
   /* bottom: 20px; */
