@@ -26,6 +26,22 @@
             </div>
           </div>
         </div> -->
+
+
+    <div class="dropdown" style="background-color:white; display: flex; ">
+      <div style="color:aquamarine; relative;padding-left: 10px;padding-right: 10px;float: left;background-color: white;font-family: Panton;font-size: 40px; ">
+          <!-- <div style="padding: 70px;width: 200px; font-family: Panton;font-size: 40px; color: white; height:10px;background-color: orangered;"> -->
+              TEST
+          <!-- </div> -->
+      
+      </div>
+              <div id="myDropdown" class="dropdown-content" style="position: relative;float: right;background-color:#ddd">
+                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+                <a href="film/Newcastle"><b>Newcastle</b> film from 2008</a>
+                <a href="place/Newcastle"><b>Newcastle</b> place in Australia</a>
+              </div>
+            </div>
+            
     
         <div class="nav-item">     
           <form method="POST" style="padding-top:15px">
@@ -252,6 +268,87 @@
       
       }
       </script>
+
+
+<script>
+
+
+
+div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            console.log(a, i);
+       a[i].style.display = "None";
+       
+          }
+        
+
+
+
+
+
+      document.getElementById("myDropdown").classList.toggle("show");
+      
+      function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+
+        console.log('hello', input.value)
+     
+        filter = input.value.toUpperCase();
+
+     
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+
+        console.log('LENGTH', filter.length)
+
+
+        if (filter.length != 0)
+
+        { 
+
+
+
+
+        for (i = 0; i < a.length; i++) {
+          txtValue = a[i].textContent || a[i].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+            console.log('first item');
+          } else {
+            console.log('second item');
+            a[i].style.display = "none";
+          }
+        }
+
+
+
+
+    } else {
+        
+        
+        
+        
+        console.log('do nothing')
+    
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            console.log(a, i);
+       a[i].style.display = "None";
+       
+          }
+        
+    
+    }
+
+
+
+      }
+
+  </script>
+
 </body>
 
 </html>
