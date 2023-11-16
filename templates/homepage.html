@@ -12,7 +12,15 @@
 
         <div class="nav-item" style='flex-grow:1'> 
           <tspan class="nav-text">
-            <a href="https://fiafcore.org/" class="nav-text" style="text-decoration:none">FIAFcore</a>
+
+            <form method="POST" style="padding-top:0px">
+              <select name="lang"  id="lang" class='language-selector' onchange="this.form.submit()">
+                <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+                <option value="es" {% if lang == 'es' %}selected{% endif %}>Español</option>
+                <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
+              </select>
+            </form>  
+          
           </tspan> 
         </div>
 
@@ -28,30 +36,27 @@
         </div> -->
 
 
-    <div class="dropdown" style="background-color:white; display: flex; ">
-      <div style="color:aquamarine; relative;padding-left: 10px;padding-right: 10px;float: left;background-color: white;font-family: Panton;font-size: 40px; ">
-          <!-- <div style="padding: 70px;width: 200px; font-family: Panton;font-size: 40px; color: white; height:10px;background-color: orangered;"> -->
-              TEST
-          <!-- </div> -->
-      
-      </div>
-              <div id="myDropdown" class="dropdown-content" style="position: relative;float: right;background-color:#ddd">
-                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-                <a href="film/Newcastle"><b>Newcastle</b> film from 2008</a>
-                <a href="place/Newcastle"><b>Newcastle</b> place in Australia</a>
-              </div>
-            </div>
-            
+   
     
-        <div class="nav-item">     
-          <form method="POST" style="padding-top:15px">
-            <select name="lang"  id="lang" class='language-selector' onchange="this.form.submit()">
-              <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
-              <option value="es" {% if lang == 'es' %}selected{% endif %}>Español</option>
-              <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
-            </select>
-          </form>  
-        </div>
+        <!-- <div class="nav-item">      -->
+        
+
+
+
+
+          <div class="dropdown" style="background-color:006666; display: flex;padding:20px ">
+   
+            <div id="myDropdown" class="dropdown-content" style="position: relative;float: right;background-color:#ddd">
+              <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+              <a href="film/Newcastle"><b>Newcastle</b> film from 2008</a>
+              <a href="place/Newcastle"><b>Newcastle</b> place in Australia</a>
+            </div>
+          </div>
+
+
+
+
+        <!-- </div> -->
     
       </div>
 
