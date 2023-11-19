@@ -99,7 +99,7 @@
 
 
 ::placeholder { 
-  color: #006666;
+  color: black;
   background-color: #ffffff;
   opacity: 1; 
   border: none;
@@ -111,6 +111,8 @@
 a:link {text-decoration: none;}
 
 #myDropdown {
+  /* padding-left: 10px; */
+
   background-color:#006666;
 
 }
@@ -118,6 +120,9 @@ a:link {text-decoration: none;}
 #myInput {
   font-family: "Quicksand"; 
   font-size: 16px;
+  min-width: 220px;
+  max-width: 220px;
+  /* padding-left: 10px; */
   /* text-decoration: none;
   background: green;
   min-width: 250px;
@@ -131,22 +136,32 @@ a:link {text-decoration: none;}
 
 }
 
-/* #myInput:focus {outline: 0px solid white;   } */
+
+
+#myInput:focus { 
+
+  outline: none;
+
+
+
+
+} 
 
 .dropdown {
   position: relative;
   /* background-color:; */
+  width: 230px; 
   display: inline-block;
   border-width: 2px;
-  background-color: white;
+  /* background-color: #006666; */
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: white;
-  min-width: 250px;
-  max-width: 250px;
+ /* max-height: 100px; */
+  width: 230px; 
   overflow: hidden;
   z-index: 1;
   border: solid #000;
@@ -160,6 +175,9 @@ border-width: 0 1px;
   color: black;
   background-color: white;
   padding: 12px 16px;
+  max-width: 230px; 
+  /* min-width: 230px;
+  max-width: 230px; */
   text-decoration: none;
   display: block;
 }

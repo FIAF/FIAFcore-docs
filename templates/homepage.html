@@ -27,7 +27,7 @@
           </tspan> 
         </div>
 
-          <div class="dropdown" style=" display: flex;padding:0px ">
+          <div class="dropdown" style=" display: flex;padding:0px ;padding-top: 12px;">
    
             <div id="myDropdown" class="dropdown-content" style="position: relative;border-color: #006666;align-items: right;">
              <div style="vertical-align: middle;">
@@ -39,6 +39,8 @@
               {% endfor %}
              
             </div>
+
+            <div style="width:10px"></div>
           </div>
 
 
@@ -341,6 +343,32 @@ div = document.getElementById("myDropdown");
       }
 
   </script>
+
+
+
+<script>
+  // Select the input element using D3
+  const inputElement = d3.select('#myInput');
+
+  // Add a focus event listener to change the text color when focused
+
+  // Add a blur event listener to reset the text color when focus is lost
+  inputElement.on('blur', function() {
+    // d3.select(this).style('background-color', 'gold'); // Reset the text color to black when focus is lost
+  
+  
+  
+  d3.select('#myDropdown').selectAll('a').transition().delay(200).style('display', 'None')
+
+
+  })
+
+
+
+
+
+</script>
+
 
 
 </body>

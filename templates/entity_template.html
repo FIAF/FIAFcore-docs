@@ -11,10 +11,11 @@
 
   <div class="nav-container">
 
-    <div class="nav-item" style='flex-grow:1'> 
-
-      <a href="/"><tspan class="nav-text" style="padding-right: 5px;text-decoration: none;">FIAFcore</tspan></a>
+ 
+    <div class="nav-item" style='flex-grow:1;'> 
+      <a href="/"><tspan class="nav-text" style="padding-right: 5px;">FIAFcore</tspan></a>
       <tspan class="nav-text">
+
 
         <form method="POST" style="padding-top:0px">
           <select name="lang"  id="lang" class='language-selector' onchange="this.form.submit()">
@@ -26,18 +27,21 @@
       
       </tspan> 
     </div>
-    <!-- 006666 -->
-      <div class="dropdown" style="background-color:006666; display: flex;padding:10px ">
 
-        <div id="myDropdown" class="dropdown-content" style="border-top:1px solid black; position: relative;border:10px; float: right;background-color:white; border-color: green;">
-          <input type="text" placeholder="{{data.search_term}}" style="color: #ffffff;text-align: right;" id="myInput" onkeyup="filterFunction()">
-         
+      <div class="dropdown" style=" display: flex;padding:0px ;padding-top: 12px;">
+
+        <div id="myDropdown" class="dropdown-content" style="position: relative;border-color: #006666;align-items: right;">
+         <div style="vertical-align: middle;">
+          <input type="text" placeholder="{{data.search_term}}" id="myInput" onkeyup="filterFunction()">
+         </div>
          
           {% for sub in data.search_options %}
           <a href="{{sub.uri}}" style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;"><b>{{sub.label}}</b></a>
           {% endfor %}
          
         </div>
+
+        <div style="width:10px"></div>
       </div>
 
 
@@ -134,7 +138,7 @@
     </tspan><br> 
 
   </div>
-
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
 
 
@@ -213,6 +217,31 @@
           }
     
       </script>
+
+
+<script>
+  // Select the input element using D3
+  const inputElement = d3.select('#myInput');
+
+  // Add a focus event listener to change the text color when focused
+
+  // Add a blur event listener to reset the text color when focus is lost
+  inputElement.on('blur', function() {
+    // d3.select(this).style('background-color', 'gold'); // Reset the text color to black when focus is lost
+  
+  
+  
+  d3.select('#myDropdown').selectAll('a').transition().delay(200).style('display', 'None')
+
+
+  })
+
+
+
+
+
+</script>
+
 </body>
 
 </html>
