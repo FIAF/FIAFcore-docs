@@ -10,33 +10,40 @@
 
     <div class="nav-container">
 
-        <div class="nav-item" style='flex-grow:1'> 
+ 
+        <div class="nav-item" style='flex-grow:1;'> 
+          <a href="/"><tspan class="nav-text" style="padding-right: 5px;">FIAFcore</tspan></a>
           <tspan class="nav-text">
-            <a href="https://fiafcore.org/" class="nav-text" style="text-decoration:none">FIAFcore</a>
+
+
+            <form method="POST" style="padding-top:0px">
+              <select name="lang"  id="lang" class='language-selector' onchange="this.form.submit()">
+                <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+                <option value="es" {% if lang == 'es' %}selected{% endif %}>Español</option>
+                <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
+              </select>
+            </form>  
+          
           </tspan> 
         </div>
 
-        <!-- <div class="nav-item" style="width:150px">  
-          <div class="dropdown" style="padding-top:10px">
-            <div id="dropdownelement" class="dropdown-content" style="margin:0px;overflow: auto">
-              <input type="text" placeholder="Search..." id="searchinput" onkeyup="filterFunction()" onfocusout="setTimeout(removedropdown, 100)"><br>
+          <div class="dropdown" style=" display: flex;padding:0px ;padding-top: 12px;">
+   
+            <div id="myDropdown" class="dropdown-content" style="position: relative;border-color: #006666;align-items: right;">
+             <div style="vertical-align: middle;">
+              <input type="text" placeholder="{{data.search_term}}" id="myInput" onkeyup="filterFunction()">
+             </div>
+             
               {% for sub in data.search_options %}
-              <a href="{{ sub.uri }}" style="display:none;">{{ sub.label }}</a>
+              <a href="{{sub.uri}}" style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;"><b>{{sub.label}}</b></a>
               {% endfor %}
+             
             </div>
+
+            <div style="width:10px"></div>
           </div>
-        </div> -->
-    
-        <div class="nav-item">     
-          <form method="POST" style="padding-top:15px">
-            <select name="lang"  id="lang" class='language-selector' onchange="this.form.submit()">
-              <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
-              <option value="es" {% if lang == 'es' %}selected{% endif %}>Español</option>
-              <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
-            </select>
-          </form>  
-        </div>
-    
+
+
       </div>
 
     <div id="title-box" style="background:white;padding-top: 80px;width:800px;margin: auto">
@@ -252,6 +259,118 @@
       
       }
       </script>
+
+
+<script>
+
+
+
+div = document.getElementById("myDropdown");
+// div.style.display = "None";
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            // console.log(a, i);
+       a[i].style.display = "None";
+      //  a[i].style.height = '0px'
+
+
+       
+          }
+        
+
+
+
+
+
+      document.getElementById("myDropdown").classList.toggle("show");
+      
+      function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+
+        // console.log('hello', input.value)
+     
+        filter = input.value.toUpperCase();
+
+     
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+
+        console.log('LENGTH', filter.length)
+
+
+        if (filter.length != 0)
+
+        { 
+
+
+
+
+        for (i = 0; i < a.length; i++) {
+          txtValue = a[i].textContent || a[i].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+            // console.log('first item');
+          } else {
+            // console.log('second item');
+            a[i].style.display = "none";
+          }
+        }
+
+
+
+
+    } else {
+        
+        
+        
+        
+        console.log('do nothing')
+    
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            // console.log(a, i);
+       a[i].style.display = "None";
+       
+          }
+        
+    
+    }
+
+
+
+      }
+
+  </script>
+
+
+
+<script>
+  // Select the input element using D3
+  const inputElement = d3.select('#myInput');
+
+  // Add a focus event listener to change the text color when focused
+
+  // Add a blur event listener to reset the text color when focus is lost
+  inputElement.on('blur', function() {
+    // d3.select(this).style('background-color', 'gold'); // Reset the text color to black when focus is lost
+  
+  
+  
+  d3.select('#myDropdown').selectAll('a').transition().delay(200).style('display', 'None')
+
+
+  })
+
+
+
+
+
+</script>
+
+
+
 </body>
 
 </html>
