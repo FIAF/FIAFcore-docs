@@ -61,7 +61,7 @@ def pull_attributes(ee, key, lang):
 
 app = Flask(__name__)
 lang = Language(app)
-app.secret_key = 'your_secret_key'
+# app.secret_key = 'your_secret_key'
 
 @lang.allowed_languages
 def get_allowed_languages():
@@ -454,6 +454,13 @@ def home_page():
     entity_dict['resources'] = {'label':translations[current_language]['resources']}
     entity_dict['contact'] = {'label':translations[current_language]['contact']}
 
+    search_entities = [rdflib.URIRef(f'https://fiafcore.org/ontology/{x}') for x in entities]
+    search_options = [{'uri':x, 'label':pull_label(x, current_language)} for x in search_entities]
+    entity_dict['search_term'] = translations[current_language]['search'] 
+    
+    search_options = sorted(search_options, key=lambda k: k['label']) 
+    entity_dict['search_options'] = search_options
+
     return render_template('homepage.html', 
         intro=translations[current_language], 
         graph=primary_manual_translation[current_language],
@@ -488,6 +495,16 @@ def entity_page(entity):
         render_data['description'] = {'label': translations[current_language]['description'], 'instances': []}
         render_data['none'] = translations[current_language]['none']
 
+
+        search_entities = [rdflib.URIRef(f'https://fiafcore.org/ontology/{x}') for x in entities]
+        search_options = [{'uri':x, 'label':pull_label(x, current_language)} for x in search_entities]
+        render_data['search_term'] = translations[current_language]['search'] 
+        
+        search_options = sorted(search_options, key=lambda k: k['label']) 
+        render_data['search_options'] = search_options
+
+
+        print('%%%', render_data)
         return render_template('entity_template.html', 
             lang=current_language, 
             data=render_data,

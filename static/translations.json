@@ -16,7 +16,8 @@
         "description":  "description",
         "domain":  "domain",
         "range":  "range",
-        "none": "None"
+        "none": "None",
+        "search": "search"
     },
     "es": {
         "link1": "FIAFcore",
@@ -34,7 +35,8 @@
         "description":  "descripción",
         "domain":  "dominio",
         "range":  "rango",
-        "none":  "Ninguno"
+        "none":  "Ninguno",
+        "search": "buscar"
     },
     "fr": {
         "link1": "FIAFcore",
@@ -52,7 +54,8 @@
         "description":  "description",
         "domain":  "domaine",
         "range":  "étendue",
-        "none":  "Aucun"
+        "none":  "Aucun",
+        "search": "rechercher"
     }
 }
  

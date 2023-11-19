@@ -12,31 +12,34 @@
   <div class="nav-container">
 
     <div class="nav-item" style='flex-grow:1'> 
+
+      <a href="/"><tspan class="nav-text" style="padding-right: 5px;text-decoration: none;">FIAFcore</tspan></a>
       <tspan class="nav-text">
-        <a href="https://fiafcore.org/" class="nav-text" style="text-decoration:none">FIAFcore</a>
+
+        <form method="POST" style="padding-top:0px">
+          <select name="lang"  id="lang" class='language-selector' onchange="this.form.submit()">
+            <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+            <option value="es" {% if lang == 'es' %}selected{% endif %}>Español</option>
+            <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
+          </select>
+        </form>  
+      
       </tspan> 
     </div>
+    <!-- 006666 -->
+      <div class="dropdown" style="background-color:006666; display: flex;padding:10px ">
 
-    <!-- <div class="nav-item" style="width:150px">  
-      <div class="dropdown" style="padding-top:10px">
-        <div id="dropdownelement" class="dropdown-content" style="margin:0px;overflow: auto">
-          <input type="text" placeholder="Search..." id="searchinput" onkeyup="filterFunction()" onfocusout="setTimeout(removedropdown, 100)"><br>
+        <div id="myDropdown" class="dropdown-content" style="border-top:1px solid black; position: relative;border:10px; float: right;background-color:white; border-color: green;">
+          <input type="text" placeholder="{{data.search_term}}" style="color: #ffffff;text-align: right;" id="myInput" onkeyup="filterFunction()">
+         
+         
           {% for sub in data.search_options %}
-          <a href="{{ sub.uri }}" style="display:none;">{{ sub.label }}</a>
+          <a href="{{sub.uri}}" style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;"><b>{{sub.label}}</b></a>
           {% endfor %}
+         
         </div>
       </div>
-    </div> -->
 
-    <div class="nav-item">     
-      <form method="POST" style="padding-top:15px">
-        <select name="lang"  id="lang" class='language-selector' onchange="this.form.submit()">
-          <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
-          <option value="es" {% if lang == 'es' %}selected{% endif %}>Español</option>
-          <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
-        </select>
-      </form>  
-    </div>
 
   </div>
   
@@ -131,47 +134,85 @@
     </tspan><br> 
 
   </div>
+
   <script>
 
-    function filterFunction() {
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("searchinput");
-        filter = input.value.toUpperCase();
-        div = document.getElementById("dropdownelement");
-        a = div.getElementsByTagName("a");
-        for (i = 0; i < a.length; i++) {
-            if (input.value.length == 0) {
-                a[i].style.display = "none";
-            }
-            else {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-    }
 
 
-    function removedropdown(){
-      console.log('hey')
-
-      setTimeout( function( ){
-
-      var input, filter, ul, li, a, i;
-        input = document.getElementById("searchinput");
-        input.value = '';
-        filter = input.value.toUpperCase();
-        div = document.getElementById("dropdownelement");
-        a = div.getElementsByTagName("a");
-        for (i = 0; i < a.length; i++) {
-                a[i].style.display = "none";
-            }}, 100);
+    div = document.getElementById("myDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                console.log(a, i);
+           a[i].style.display = "None";
+           
+              }
+            
     
-    }
-    </script>
+    
+    
+    
+    
+          document.getElementById("myDropdown").classList.toggle("show");
+          
+          function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+    
+            console.log('hello', input.value)
+         
+            filter = input.value.toUpperCase();
+    
+         
+            div = document.getElementById("myDropdown");
+            a = div.getElementsByTagName("a");
+    
+            console.log('LENGTH', filter.length)
+    
+    
+            if (filter.length != 0)
+    
+            { 
+    
+    
+    
+    
+            for (i = 0; i < a.length; i++) {
+              txtValue = a[i].textContent || a[i].innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+                console.log('first item');
+              } else {
+                console.log('second item');
+                a[i].style.display = "none";
+              }
+            }
+    
+    
+    
+    
+        } else {
+            
+            
+            
+            
+            console.log('do nothing')
+        
+            div = document.getElementById("myDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                console.log(a, i);
+           a[i].style.display = "None";
+           
+              }
+            
+        
+        }
+    
+    
+    
+          }
+    
+      </script>
 </body>
 
 </html>
