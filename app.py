@@ -495,6 +495,9 @@ def entity_page(entity):
         render_data['description'] = {'label': translations[current_language]['description'], 'instances': []}
         render_data['none'] = translations[current_language]['none']
 
+        render_data['dendogram'] = {'parents': render_data['superclass'],'children': render_data['subclass']}
+        print(render_data['dendogram'])
+
 
         search_entities = [rdflib.URIRef(f'https://fiafcore.org/ontology/{x}') for x in entities]
         search_options = [{'uri':x, 'label':pull_label(x, current_language)} for x in search_entities]
@@ -504,7 +507,7 @@ def entity_page(entity):
         render_data['search_options'] = search_options
 
 
-        print('%%%', render_data)
+        # print('%%%', render_data)
         return render_template('entity_template.html', 
             lang=current_language, 
             data=render_data,
