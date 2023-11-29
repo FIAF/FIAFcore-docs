@@ -51,6 +51,9 @@
     
     <tspan class="subject-text" text-anchor="left">{{ data.label }}</tspan> <br><br>
 
+
+
+
     <tspan class="key-text">{{ data.entity_type.label }}<br><br>
       {% for x in data.entity_type.instances %}
       <a href="{{ x.link }}" class="value-text">{{ x.label }}</a>
@@ -67,29 +70,21 @@
       {% endif %}
     </tspan><br>
 
-    {% if page_type == 'class' %}
-    <tspan class="key-text">{{ data.superclass.label }}<br><br>
-      {% if data.superclass.instances %}
-      {% for x in data.superclass.instances %}
-      <a href="{{ x.link }}" class="value-text">{{ x.label }}</a><br>
-      {% endfor %}
-      {% else %}
-      <tspan class="blank-text">{{ data.none }}</tspan><br>
-      {% endif %}
-    </tspan><br>
-    {% endif %}
 
-    {% if page_type == 'class' %}
-    <tspan class="key-text">{{ data.subclass.label }}<br><br>
-      {% if data.subclass.instances %}
-      {% for x in data.subclass.instances %}
-      <a href="{{ x.link }}" class="value-text">{{ x.label }}</a><br>
-      {% endfor %}
-      {% else %}
-      <tspan class="blank-text">{{ data.none }}</tspan><br>
-      {% endif %}
-    </tspan><br>
-    {% endif %}
+
+
+    <!-- this is where the dendogram goes -->
+<!-- probably better if data is cooked to directly plug into d3 -->
+{% if page_type == 'class' %}
+    <!-- console.log() -->
+    <tspan class="key-text">{{ data.related.label }}  </tspan><br><br>
+    <div id="paper" style="background-color:white;width: 800px;"></div>
+
+<br>
+
+{% endif %}
+
+
 
     {% if page_type == 'class' %}
     <tspan class="key-text">{{ data.properties.label }}<br><br>
@@ -146,7 +141,7 @@
     div = document.getElementById("myDropdown");
             a = div.getElementsByTagName("a");
             for (i = 0; i < a.length; i++) {
-                console.log(a, i);
+                // console.log(a, i);
            a[i].style.display = "None";
            
               }
@@ -162,7 +157,7 @@
             var input, filter, ul, li, a, i;
             input = document.getElementById("myInput");
     
-            console.log('hello', input.value)
+            // console.log('hello', input.value)
          
             filter = input.value.toUpperCase();
     
@@ -170,7 +165,7 @@
             div = document.getElementById("myDropdown");
             a = div.getElementsByTagName("a");
     
-            console.log('LENGTH', filter.length)
+            // console.log('LENGTH', filter.length)
     
     
             if (filter.length != 0)
@@ -184,9 +179,9 @@
               txtValue = a[i].textContent || a[i].innerText;
               if (txtValue.toUpperCase().indexOf(filter) > -1) {
                 a[i].style.display = "";
-                console.log('first item');
+                // console.log('first item');
               } else {
-                console.log('second item');
+                // console.log('second item');
                 a[i].style.display = "none";
               }
             }
@@ -199,12 +194,12 @@
             
             
             
-            console.log('do nothing')
+            // console.log('do nothing')
         
             div = document.getElementById("myDropdown");
             a = div.getElementsByTagName("a");
             for (i = 0; i < a.length; i++) {
-                console.log(a, i);
+                // console.log(a, i);
            a[i].style.display = "None";
            
               }
@@ -235,6 +230,159 @@
 
 
   })
+
+
+
+
+
+</script>
+
+
+<script>
+
+let blab = JSON.parse('{{ data.dendo |safe }}')
+
+console.log(blab)
+
+
+
+subject_node = [{'uri':'', 'label':''}]
+parent_node = blab['parents']
+child_node = blab['children']
+
+console.log('hello')
+console.log(subject_node)
+
+console.log(parent_node)
+console.log(child_node)
+
+
+
+
+// useful function
+
+function customFunction(m, n, p) {
+
+let startValue = (m*50/2) - (n - 1) * 25;
+const increment = 50;
+const result = Array.from({ length: n }, (_, index) => startValue + index * increment);
+return result[p];
+}
+
+
+
+// required processing
+
+const curve = d3.line().curve(d3.curveBumpX);
+
+max = Math.max(subject_node.length, parent_node.length, child_node.length)
+
+// d3.select('#paper') .style("height", max*100)
+// d3.select('#paper').style("background-color", "pink").style("height", 200).attr("height", 200)
+
+
+d3.select("#paper")
+    .append("svg")
+    .attr("id", "canvas")
+    .attr("width", 800)
+    .attr("height", max*50)
+    // .attr("overflow", 'visible')
+    .style("background-color", "#fafafa");
+
+// first forEach candidate, node location processing
+
+parent_node.forEach((d, i) => d["y"] = customFunction(max, parent_node.length, i))
+parent_node.forEach((d, i) => d["x"] = 200) 
+
+subject_node.forEach((d, i) => d["y"] = customFunction(max, subject_node.length, i)) 
+subject_node.forEach((d, i) => d["x"] = 400) 
+
+
+
+child_node.forEach((d, i) => d["y"] = customFunction(max, child_node.length, i)) 
+child_node.forEach((d, i) => d["x"] = 600) 
+ 
+// mandatory extract of processed data.
+
+const subject_x = subject_node[0]['x']
+const subject_y = subject_node[0]['y']
+
+console.log(subject_x, subject_y)
+
+// second for each processing, line graphing
+
+function line_elements(data){
+    d3.select('#canvas')
+    .selectAll('g')
+    .data(data)
+    .join('path')
+    .attr('d', d => curve([[d['x'], d['y']], [subject_x, subject_y]]))
+    .style('stroke', 'black')
+    .style('fill', 'none')
+}
+
+Array(parent_node, subject_node, child_node).forEach(d =>  line_elements(d))
+
+// third processing, nodes themselves 
+
+function circle_elements(data, int){
+    d3.select('#canvas')
+    .selectAll('g')
+    .data(data)
+    .join('circle')
+    .attr('cx', (d,i) => d['x'])
+    .attr('cy', (d,i) => d['y'])
+    .attr('r', 5)
+    .attr('fill', d => { if (int==1) {return 'white'} else{ return '#006666'}})
+    .attr('stroke', d => { if (int==1) {return 'black'} else{ return 'white'}})
+    // .on("mouseover", function(k,d) {
+    //     d3.select(this).attr('fill', 'black')
+    // })
+    // .on("mouseout", function(k,d) {
+    //     d3.selectAll('circle').attr('fill', '#006666')
+    // })
+    .on("click", function(k, d) { 
+        window.open(d.link,"_self"); 
+    });
+
+
+
+
+}
+
+Array(parent_node, subject_node, child_node).forEach((d, i) =>  circle_elements(d, i))
+
+// fourth processing, text elements
+
+function text_elements(data, i){
+
+    let align = ['end', 'middle', 'start']
+    let placement = (i-1)*10
+
+    d3.select('#canvas')
+    .selectAll('g')
+    .data(data)
+
+    .join('text')
+
+  .attr('font-family', "Quicksand")
+  .attr('font-weight', '400')
+  .attr('font-size', '16px')
+  .attr('color', '#006666')
+  .style('color', '#006666')
+  .style('opacity', '1')
+    .attr('x', (d,i) => d['x']+placement)
+    .attr('y', (d,i) => d['y'])
+    .attr('alignment-baseline', 'middle')
+    .attr('text-anchor', align[i])
+    .text(d => d.label)
+}
+
+Array(parent_node, subject_node, child_node).forEach((d, i) =>  text_elements(d, i))
+
+
+// add links
+
 
 
 

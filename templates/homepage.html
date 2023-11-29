@@ -35,7 +35,7 @@
              </div>
              
               {% for sub in data.search_options %}
-              <a href="{{sub.uri}}" style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;"><b>{{sub.label}}</b></a>
+              <a href="ontology/{{sub.uri}}" style="border-left:1px solid black;border-right:1px solid black;border-bottom:1px solid black;"><b>{{sub.label}}</b></a>
               {% endfor %}
              
             </div>
@@ -149,7 +149,7 @@
           d3.selectAll('.entity_blocks').attr('fill', 'white')
           d3.selectAll('.entity_text2').attr('stroke', 'black')
         })
-        .on("click", function(k, d) { window.open("https://fiafcore.org/ontology/"+d.url,"_self"); });
+        .on("click", function(k, d) { window.open('ontology/'+d.url,"_self"); });
 
       d3.select('#canvas')
         .selectAll('.entity_text2')
