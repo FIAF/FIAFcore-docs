@@ -59,6 +59,51 @@ def pull_attributes(ee, key, lang):
     else:
         raise Exception('Unexpected result.')
 
+def pull_attributes_str(ee, key, lang):
+
+    ''' Pull information about the entity from the graph. '''
+
+    query = '''
+        select distinct ?class ?label ?superclass ?subclass ?properties ?domain ?union_domain ?range ?reference 
+        where {
+            values ?subject {<https://fiafcore.org/ontology/'''+ee+'''>}
+            values ?language {"'''+lang+'''"}
+            ?subject rdf:type ?class .
+            optional { 
+                ?subject rdfs:label ?label . 
+                filter (lang (?label) = ?language) . }
+            optional { ?subject rdfs:subClassOf ?superclass . }
+            optional { ?subclass rdfs:subClassOf ?subject . }
+            optional { ?properties rdfs:domain ?subject . }
+            optional { ?subject rdfs:domain ?domain . }
+            optional {
+                ?subject rdfs:domain ?domain .
+                ?domain owl:unionOf ?a . 
+                ?a rdf:rest*/rdf:first ?union_domain . }
+            optional { ?subject rdfs:range ?range . }
+            optional { 
+                ?subject <http://purl.org/dc/elements/1.1/source> ?reference . 
+                filter (lang (?reference) = ?language) . } 
+            } '''
+
+    result = pydash.uniq([r[key] for r in graph.query(query)])
+    result = [x for x in result if not isinstance(x, type(None))]
+    result = [x for x in result if not isinstance(x, type(rdflib.BNode('')))]
+    result = sorted(result)
+
+    if len(result) < 1:
+        return []
+    elif isinstance(result[0], type(rdflib.Literal(''))):
+        return [str(x) for x in result]
+    elif type(result[0]) == type(rdflib.URIRef('')):
+        print(result)
+        entity_list = [{'link':str(pathlib.Path(x).stem), 'label':pull_label(x, lang)} for x in result]
+        print(entity_list)
+        return sorted(entity_list, key=lambda x: x['label'])
+    else:
+        raise Exception('Unexpected result.')
+
+
 app = Flask(__name__)
 lang = Language(app)
 # app.secret_key = 'your_secret_key'
@@ -428,7 +473,7 @@ with open(pathlib.Path.cwd() / 'static' / 'translations.json') as translations:
     translations = json.load(translations)
 
 @app.route('/', methods=['GET', 'POST'])
-@app.route('/ontology/', methods=['GET', 'POST'])
+# @app.route('/ontology/', methods=['GET', 'POST'])
 def home_page():
 
     if request.method == 'POST':
@@ -455,7 +500,7 @@ def home_page():
     entity_dict['contact'] = {'label':translations[current_language]['contact']}
 
     search_entities = [rdflib.URIRef(f'https://fiafcore.org/ontology/{x}') for x in entities]
-    search_options = [{'uri':x, 'label':pull_label(x, current_language)} for x in search_entities]
+    search_options = [{'uri':pathlib.Path(x).stem, 'label':pull_label(x, current_language)} for x in search_entities]
     entity_dict['search_term'] = translations[current_language]['search'] 
     
     search_options = sorted(search_options, key=lambda k: k['label']) 
@@ -474,8 +519,8 @@ def entity_page(entity):
         if request.method == 'POST':
             lang.change_language(request.form['lang'])
     
-        combined_domains = pull_attributes(entity, 'domain', current_language)
-        combined_domains += pull_attributes(entity, 'union_domain', current_language)
+        combined_domains = pull_attributes_str(entity, 'domain', current_language)
+        combined_domains += pull_attributes_str(entity, 'union_domain', current_language)
         type_state = pull_attributes(entity, 'class', current_language)[0]['link']
 
         if str(type_state) == 'http://www.w3.org/2002/07/owl#Class':
@@ -487,20 +532,30 @@ def entity_page(entity):
         render_data['type_gate'] = str(pull_attributes(entity, 'class', current_language)[0]['link'])
         render_data['entity_type'] = {'label': translations[current_language]['type'], 'instances': pull_attributes(entity, 'class', current_language)}
         render_data['reference'] = {'label': translations[current_language]['reference'], 'instances': pull_attributes(entity, 'reference', current_language)}
-        render_data['superclass'] = {'label': translations[current_language]['superclass'], 'instances': pull_attributes(entity, 'superclass', current_language)}
-        render_data['subclass'] = {'label': translations[current_language]['subclass'], 'instances': pull_attributes(entity, 'subclass', current_language)}
-        render_data['properties'] = {'label': translations[current_language]['properties'], 'instances': pull_attributes(entity, 'properties', current_language)}
+        # render_data['superclass'] = {'label': translations[current_language]['superclass'], 'instances': pull_attributes(entity, 'superclass', current_language)}
+        # render_data['subclass'] = {'label': translations[current_language]['subclass'], 'instances': pull_attributes(entity, 'subclass', current_language)}
+        render_data['properties'] = {'label': translations[current_language]['properties'], 'instances': pull_attributes_str(entity, 'properties', current_language)}
         render_data['domain'] = {'label': translations[current_language]['domain'], 'instances': combined_domains}
-        render_data['range'] = {'label': translations[current_language]['range'], 'instances': pull_attributes(entity, 'range', current_language)}
+        render_data['range'] = {'label': translations[current_language]['range'], 'instances': pull_attributes_str(entity, 'range', current_language)}
         render_data['description'] = {'label': translations[current_language]['description'], 'instances': []}
         render_data['none'] = translations[current_language]['none']
 
-        render_data['dendogram'] = {'parents': render_data['superclass'],'children': render_data['subclass']}
-        print(render_data['dendogram'])
+        # render_data['dendogram'] = {'parents': render_data['superclass'],'children': render_data['subclass']}
+        # print(render_data['dendogram'])
+
+        render_data['related'] = {'label':translations[current_language]['related']}
+
+        render_data['dendo'] = json.dumps({'parents': pull_attributes_str(entity, 'superclass', current_language),
+            'children': pull_attributes_str(entity, 'subclass', current_language)})
+        print(render_data['dendo'])
+# subject_node = [{'uri':'', 'label':''}]
+# parent_node = [{"uri":"", 'label':'hey henry'}, {"uri":"", 'label':'hey'}, {"uri":"", 'label':'hey'}]
+# child_node = [{"uri":"WorkVariant", 'label':'WorkVariant'},{"uri":"", 'label':'hey'},{"uri":"", 'label':'hey'},{"uri":"", 'label':'hey'}]
+
 
 
         search_entities = [rdflib.URIRef(f'https://fiafcore.org/ontology/{x}') for x in entities]
-        search_options = [{'uri':x, 'label':pull_label(x, current_language)} for x in search_entities]
+        search_options = [{'uri':pathlib.Path(x).stem, 'label':pull_label(x, current_language)} for x in search_entities]
         render_data['search_term'] = translations[current_language]['search'] 
         
         search_options = sorted(search_options, key=lambda k: k['label']) 
