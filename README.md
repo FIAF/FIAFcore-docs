@@ -1,18 +1,18 @@
 # FIAFcore-docs
 Documentation application for the [FIAFcore ontology](https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl).
 
-## Dev deployment
+### Index
 
-A local instance of the application can be run using the following command
+To build and run index application, cd to `index` directory and run
 
->python3 app.py
+```
+docker build -t fiafcore-docs-index -f Dockerfile . 
+```
 
-## Docker deployment
+Once image has been built it can be deployed as a standalone instance
 
-The Docker image of the Flask app can be built using the following command
+```
+docker run -d --restart=always -p 5001:5000 fiafcore-docs-index
+```
 
->docker build -t fiafcore-docs -f Dockerfile .
-
-The instance can then be deployed using Docker Compose via the following command
-
-> docker compose up -d
+Service should then be visible at localhost:5001
