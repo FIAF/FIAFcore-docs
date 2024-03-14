@@ -2,7 +2,7 @@
 
 <head>
   <title>
-    {{ data.label }}
+    Orient (1924-1924)(Originaltitel)
   </title>
   <link href="https://fonts.googleapis.com/css?family=Quicksand:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
 
@@ -40,7 +40,7 @@
   </style>
 </head>
 
-<body style='background:tomato;'>
+<body style='background:mediumaquamarine;'>
 
 
   <div>
@@ -51,44 +51,16 @@
 
   <div style='width:600px; margin: 0 auto;'>
     <div style='padding-top:100px;padding-bottom:100px'>
-      <tspan class="text title">{{ data.label }}</tspan><br>
+      <tspan class="text title">404</tspan><br>
     </div>
 
-
-
-
-
-
-
     <table style='border: 0px solid black;'>
-        
-      {% for x in data.attributes %}
-
       <tr>
         <td>
-          {% if x.pos == 0 %}
-          <tspan class="text key">{{x.key}}</tspan>
-          {% else %}
-          <tspan class="text key"></tspan>
-          {% endif %}
+          <tspan class="text value">Resource cannot be found.</tspan>
         </td>
-        <td>
-
- 
-
-          {% if x.link == '' %}
-          <tspan class="text value">{{x.value}}</tspan>
-          {% else %}
-          <a href="{{x.link}}">
-          <tspan class="text value">{{x.value}}</tspan>
-          </a>
-          {% endif %}
-        
-        </td>
+    
       </tr>
-      {% endfor %}
-    </table>
-
 
 
   </div>

@@ -17,12 +17,26 @@ def home_page(resource):
 
     if resource in list(df.resource_id.unique()):
 
-        entity_data = df.loc[df.resource_id.isin([resource])]
-        data = {
-            'resource_label': entity_data.iloc[0]['entityLabel'],
-            'resource_type': entity_data.iloc[0]['type_label'],
-            'identifiers': [{'id':f"{x['id_value']} ({x['auth_label']})", 'pos':n} for n,x in enumerate(entity_data.to_dict('records'))]
-            }
+        entity_data = df.loc[df.resource_id.isin([resource])].copy()
+        entity_data['id_concat'] = entity_data['id_value']+' ('+entity_data['auth_label']+')'
+
+        ident = entity_data[['id_concat']].rename(columns={'id_concat':'value'})
+        ident['key'] = 'identifiers'
+        ident['link'] = ''
+        ident['pos'] = [x for x in range(len(ident))]
+
+        attributes = pandas.concat([
+            pandas.DataFrame([{
+                'key':'type', 
+                'value':entity_data.iloc[0]['type_label'],
+                'link':entity_data.iloc[0]['type'],
+                'pos':0
+                }]),
+            ident 
+            ])
+
+        data = {'label': entity_data.iloc[0]['entityLabel'], 
+            'attributes': attributes.to_dict('records')}
 
         return render_template('resource.html', data=data)
 
@@ -30,4 +44,4 @@ def home_page(resource):
         return render_template('404.html')
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5002)
