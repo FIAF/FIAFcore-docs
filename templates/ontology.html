@@ -30,6 +30,11 @@
       font-size: 16px;
     }
 
+    a {
+            text-decoration: underline;
+            color: black;
+        }
+
     th,
     td {
       padding-bottom: 10px;
@@ -41,9 +46,8 @@
 <body style='background:mediumaquamarine;'>
 
 
-<div>
-  <tspan class="text home">FIAFcore</tspan>
-</div>
+  {% include 'home.html' %}
+
 
   <div style='width:600px; margin: 0 auto;'>
     <div style='padding-top:100px;padding-bottom:100px'>

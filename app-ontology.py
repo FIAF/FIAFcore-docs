@@ -128,10 +128,6 @@ def home_page(entity):
 
         current_language = 'en'
 
- 
-        # type_state = extract_values('', entity, rdflib.RDF.type, 'right')
-        # print('@@@', type_state)
-        # blab = list()
 
         type_state = extract_values('type', entity, rdflib.RDF.type, 'right').iloc[0]['value']
         print('%%%', type_state)
@@ -143,21 +139,7 @@ def home_page(entity):
         ])
 
 
-        # print('@@@', extract_values('properties', entity, rdflib.RDFS.domain, 'left'))
 
-        # print('@@@', extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right'))
-
-
-        # blab.append({'key':'Type', 'values': extract_values(entity, rdflib.RDF.type, 'right')})
-     
-        # attributes += extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right')   
-
-
-
-
-  
-        # print(blab)
-        # blab.append({'key':'Reference', 'values': extract_values(entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right')})
         
         if type_state == 'Class':
 
@@ -166,8 +148,6 @@ def home_page(entity):
                 attributes,
                 extract_values('properties', entity, rdflib.RDFS.domain, 'left')
             ])
-        #     blab.append({'key':'Related Classes', 'values': []})    
-        #     blab.append({'key':'Properties', 'values': extract_values(entity, rdflib.RDFS.domain, 'left')})
 
         if type_state != 'Class':
 
@@ -186,18 +166,6 @@ def home_page(entity):
 
 
 
-        #     blab.append({'key':'Domain', 'values': extract_values(entity, rdflib.RDFS.domain, 'right')})
-        #     blab.append({'key':'Range', 'values': extract_values(entity, rdflib.RDFS.range, 'right')})
-
-        # blab.append({'key':'Description', 'values': extract_values(entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right')})
-
-        # hack = json.dumps({
-        #     'parents': [x for x in extract_values(entity, rdflib.RDFS.subClassOf, 'right') if x['type'] == 'link'],
-        #     'children': [x for x in extract_values(entity, rdflib.RDFS.subClassOf, 'left') if x['type'] == 'link']})
-
-        # test = extract_values(entity, rdflib.RDFS.label, 'right')
-        # test2 = {'toplevel':'paul', 'label':test[0]['value'],'data':blab, 'dendo':hack}
-
 
 
         print('aaa', len(attributes))
@@ -211,11 +179,11 @@ def home_page(entity):
             'attributes': attributes.to_dict('records')}
 
 
-        return render_template('page.html', data=data)
+        return render_template('ontology.html', data=data)
     # else:
 
     else:
-        return render_template('404.html')
+        return render_template('404.html', colour='mediumaquamarine')
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5028)

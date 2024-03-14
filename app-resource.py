@@ -41,7 +41,7 @@ def home_page(resource):
         return render_template('resource.html', data=data)
 
     else:
-        return render_template('404.html')
+        return render_template('404.html', colour='tomato')
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5029)

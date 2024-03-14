@@ -54,9 +54,9 @@
 <body style='background:mediumaquamarine;'>
 
 
-    <div><a href="https://fiafcore.org/" style="text-decoration: none;">
-        <tspan class="text home">FIAFcore</tspan></a>
-    </div>
+    {% include 'home.html' %}
+
+
 
     <div style='width:600px; margin: 0 auto;'>
         <div style='padding-top:100px;padding-bottom:100px'>
@@ -129,7 +129,7 @@
     </div>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script>let graph_terms = JSON.parse('{{ graph|tojson() }}')</script>
+    <script>let graph_terms = JSON.parse('{{ data|tojson() }}')</script>
     <script src="../static/summary.js"></script>
 
 
