@@ -1,7 +1,7 @@
 # FIAFcore-docs
 Documentation application for the [FIAFcore](https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl) ontology.
 
-**Build images.**
+**Build**
 
 The documentation web app comprises three distinct docker containers which need to be built using the following commands.
 
@@ -15,7 +15,7 @@ docker build -t fiafcore-resource -f dockerfile-resource .
 
 Resulting images can be seen by running `docker images -a`.
 
-***Deploy images.**
+**Deploy**
 
 The three images can be deployed by simply running
 
