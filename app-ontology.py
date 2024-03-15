@@ -1,5 +1,3 @@
-
-
 from flask import Flask, render_template
 import json
 import pandas
@@ -7,15 +5,9 @@ import pathlib
 import pydash
 import rdflib
 
-# load resource parquet files
-
-# df = pandas.read_parquet(pathlib.Path.cwd() / 'static' / 'bundesarchiv_resources.parquet')
-# df['resource_id'] = df['entity'].str.split('/').str[-1]
-
 def extract_values(key, entity, predicate, direction):
 
     current_language = 'en'
-
     entity_id = rdflib.URIRef(f'https://ontology.fiafcore.org/{entity}')
 
     if direction == 'right':
@@ -47,7 +39,6 @@ def extract_values(key, entity, predicate, direction):
         recollect.append({'key': key, 'value':'None', 'link':''})
 
     recollect = sorted(recollect, key=lambda x: x['value'])
-    
     recollect = pandas.DataFrame(recollect)
     recollect['pos'] = [x for x in range(len(recollect))]
 
@@ -63,11 +54,8 @@ def pull_label(entity, language):
     else:
         return str(label[0])
 
-
-
 graph = rdflib.Graph()
 graph.parse(pathlib.Path.cwd() / 'static' / 'ontology.ttl', format='ttl')
-
 
 # parsing work to remove all unionOf nodes
 # while these are required in the ontology, they would be confusing in the documentation
@@ -97,17 +85,10 @@ for entity_type in [rdflib.OWL.Class, rdflib.OWL.DatatypeProperty, rdflib.OWL.Ob
     for s,p,o in graph.triples((None, rdflib.RDF.type, entity_type)):
         entities.append(pathlib.Path(s).name)
         
-# render markdown
-
-# parsing work to remove all unionOf nodes
-# while these are required in the ontology, they would be confusing in the documentation
-
 for l in ['en', 'es', 'fr']:
     graph.add((rdflib.URIRef('http://www.w3.org/2002/07/owl#Class'), rdflib.RDFS.label, rdflib.Literal('Class', lang=l)))
     graph.add((rdflib.URIRef('http://www.w3.org/2002/07/owl#ObjectProperty'), rdflib.RDFS.label, rdflib.Literal('Object Property', lang=l)))
     graph.add((rdflib.URIRef('http://www.w3.org/2002/07/owl#DatatypeProperty'), rdflib.RDFS.label, rdflib.Literal('Datatype Property', lang=l)))
-
-
 
 app = Flask(__name__)
 
@@ -116,36 +97,20 @@ def home_page(entity):
 
     if entity in entities:
 
-
-
-
-        # okay build up a dataframe of all attributes, and then switch to_dict
-
-
-
-
-
-
         current_language = 'en'
-
-
         type_state = extract_values('type', entity, rdflib.RDF.type, 'right').iloc[0]['value']
-        print('%%%', type_state)
-
 
         attributes = pandas.concat([
             extract_values('type', entity, rdflib.RDF.type, 'right'),
             extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right')  
         ])
-
-
-
         
         if type_state == 'Class':
 
-
             attributes = pandas.concat([
                 attributes,
+                extract_values('parent classes', entity, rdflib.RDFS.subClassOf, 'right'),
+                extract_values('child classes', entity, rdflib.RDFS.subClassOf, 'left'),
                 extract_values('properties', entity, rdflib.RDFS.domain, 'left')
             ])
 
@@ -157,30 +122,15 @@ def home_page(entity):
                 extract_values('range', entity, rdflib.RDFS.range, 'right')
             ])
 
-
         attributes = pandas.concat([
                 attributes,
                 extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right')
             ])
 
-
-
-
-
-
-        print('aaa', len(attributes))
-        print('bbb', attributes.head())
-        print('ccc', attributes.tail())
-
         label = extract_values('label', entity, rdflib.RDFS.label, 'right').iloc[0]['value']
-        print(label)
-
-        data = {'label': label, 
-            'attributes': attributes.to_dict('records')}
-
+        data = {'label': label, 'attributes': attributes.to_dict('records')}
 
         return render_template('ontology.html', data=data)
-    # else:
 
     else:
         return render_template('404.html', colour='mediumaquamarine')

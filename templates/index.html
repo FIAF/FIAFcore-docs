@@ -1,85 +1,29 @@
 <html>
 
 <head>
-    <title>
-        FIAFcore
-    </title>
+    <title>FIAFcore</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Quicksand:100,200,300,400,500,600,700,800,900"
         rel="stylesheet" />
-
-    <style>
-        .text {
-            font-family: Quicksand;
-            color: black;
-        }
-
-        .title {
-            font-weight: 100;
-            font-size: 48px;
-        }
-
-        .key {
-            font-weight: 1000;
-            font-size: 16px;
-        }
-
-        .value {
-            font-weight: 400;
-            font-size: 16px;
-        }
-
-        .home {
- 
-            font-weight: 1000;
-            font-size: 16px;
-        }
-
-        a {
-            text-decoration: underline;
-            color: black;
-        }
-
-        th,
-        td {
-            padding-bottom: 10px;
-            padding-right: 40px;
-            padding-left: 0px;
-
-
-
-        }
-    </style>
 </head>
 
 <body style='background:mediumaquamarine;'>
-
-
     {% include 'home.html' %}
-
-
-
     <div style='width:600px; margin: 0 auto;'>
         <div style='padding-top:100px;padding-bottom:100px'>
             <tspan class="text title">FIAFcore</tspan><br>
         </div>
-  
-
         <tspan class="text value">
-            <a href="https://fiafcore.org/">FIAFcore</a> is an ontology for film archives, based primarily on the <a href="https://www.fiafnet.org/pages/E-Resources/Cataloguing-Manual.html">FIAF Cataloguing Manual</a>. It is intended to
+            <a href="https://fiafcore.org/">FIAFcore</a> is an ontology for film archives, based primarily on the <a
+                href="https://www.fiafnet.org/pages/E-Resources/Cataloguing-Manual.html">FIAF Cataloguing Manual</a>. It
+            is intended to
             facilitate data harmonisation and exchange between institutions.
         </tspan><br><br>
-
-
-<tspan class="text key">primary classes</tspan>
-        <div id="paper" ></div>
-
+        <tspan class="text key">primary classes</tspan>
+        <div id="paper"></div>
         <tspan class="text key">ontology search</tspan>
-
         <br><br>
         <table style='border: 0px solid black; border-collapse: collapse;'>
-
-
-
             <tr>
                 <td>
                     <tspan class="text key">resources</tspan>
@@ -90,8 +34,6 @@
                     </a>
                 </td>
             </tr>
-
-
             <tr>
                 <td>
                     <tspan class="text key"></tspan>
@@ -102,36 +44,31 @@
                     </a>
                 </td>
             </tr>
-
-
             <tr>
                 <td>
                     <tspan class="text key"></tspan>
                 </td>
                 <td>
-                   <a href="https://service.tib.eu/webvowl/#iri=https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl"> <tspan class="text value">WebVOWL</tspan></a>
+                    <a
+                        href="https://service.tib.eu/webvowl/#iri=https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl">
+                        <tspan class="text value">WebVOWL</tspan>
+                    </a>
                 </td>
             </tr>
-
-
             <tr>
                 <td>
                     <tspan class="text key">contact</tspan>
                 </td>
                 <td>
-                    <a href="mailto:cdc@fiafnet.org"> <tspan class="text value">cdc@fiafnet.org</tspan></a>
+                    <a href="mailto:cdc@fiafnet.org">
+                        <tspan class="text value">cdc@fiafnet.org</tspan>
+                    </a>
                 </td>
             </tr>
-
-
-
-
     </div>
-
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>let graph_terms = JSON.parse('{{ data|tojson() }}')</script>
     <script src="../static/summary.js"></script>
-
 
 </body>
 

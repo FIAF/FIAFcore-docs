@@ -1,0 +1,35 @@
+.text {
+    font-family: Quicksand;
+    color: black;
+}
+
+.title {
+    font-weight: 100;
+    font-size: 48px;
+}
+
+.key {
+    font-weight: 1000;
+    font-size: 16px;
+}
+
+.value {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.home {
+    font-weight: 1000;
+    font-size: 16px;
+}
+
+a {
+    text-decoration: underline;
+    color: black;
+}
+
+th,
+td {
+    padding-bottom: 10px;
+    padding-right: 40px;
+}
