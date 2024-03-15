@@ -1,18 +1,26 @@
 # FIAFcore-docs
-Documentation application for the [FIAFcore ontology](https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl).
+Documentation application for the [FIAFcore](https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl) ontology.
 
-### Index
+**Build images.**
 
-To build and run index application, cd to `index` directory and run
-
-```
-docker build -t fiafcore-docs-index -f Dockerfile . 
-```
-
-Once image has been built it can be deployed as a standalone instance
+The documentation web app comprises three distinct docker containers which need to be built using the following commands.
 
 ```
-docker run -d --restart=always -p 5001:5000 fiafcore-docs-index
+docker build -t fiafcore-index -f dockerfile-index .
+
+docker build -t fiafcore-ontology -f dockerfile-ontology .
+
+docker build -t fiafcore-resource -f dockerfile-resource .
 ```
 
-Service should then be visible at localhost:5001
+Resulting images can be seen by running `docker images -a`.
+
+***Deploy images.**
+
+The three images can be deployed by simply running
+
+```
+docker compose up -d
+```
+
+Resulting containers can be seen by running `docker ps`.

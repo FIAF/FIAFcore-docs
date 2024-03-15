@@ -1,0 +1,20 @@
+---
+services:
+  index:
+    image: fiafcore-index
+    container_name: index
+    restart: always
+    ports:
+      - "5027:5027"
+  ontology:
+    image: fiafcore-ontology
+    container_name: ontology
+    restart: always
+    ports:
+      - "5028:5028"
+  resource:
+    image: fiafcore-resource
+    container_name: resource
+    restart: always
+    ports:
+      - "5029:5029"

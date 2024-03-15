@@ -7,7 +7,7 @@ import rdflib
 
 # load resource parquet files
 
-df = pandas.read_parquet(pathlib.Path.cwd() / 'static' / 'bundesarchiv_resources.parquet')
+df = pandas.read_csv(pathlib.Path.cwd() / 'static' / 'bundesarchiv_resources.csv')
 df['resource_id'] = df['entity'].str.split('/').str[-1]
 
 app = Flask(__name__)
