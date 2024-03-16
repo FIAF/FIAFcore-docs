@@ -130,7 +130,7 @@ def home_page(entity):
         label = extract_values('label', entity, rdflib.RDFS.label, 'right').iloc[0]['value']
         data = {'label': label, 'attributes': attributes.to_dict('records')}
 
-        return render_template('ontology.html', data=data)
+        return render_template('page.html', data=data, colour='mediumaquamarine')
 
     else:
         return render_template('404.html', colour='mediumaquamarine')

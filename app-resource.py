@@ -38,7 +38,7 @@ def home_page(resource):
         data = {'label': entity_data.iloc[0]['entityLabel'], 
             'attributes': attributes.to_dict('records')}
 
-        return render_template('resource.html', data=data)
+        return render_template('page.html', data=data, colour='tomato')
 
     else:
         return render_template('404.html', colour='tomato')
