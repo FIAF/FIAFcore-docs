@@ -4,6 +4,31 @@ import pandas
 import pathlib
 import pydash
 import rdflib
+import requests
+
+def value_extract(row, column):
+
+    ''' Extract dictionary values. '''
+
+    return pydash.get(row[column], 'value')
+
+def sparql_query(query, service):
+
+    ''' Send sparql request, and formulate results into a dataframe. '''
+
+    headers = {
+        'Content-Type': 'application/x-turtle',
+        'Accept': 'application/json'
+    }
+
+    response = requests.get(service, params={'query': query}, timeout=120, headers=headers)
+
+    results = pydash.get(response.json(), 'results.bindings')
+    data_frame = pandas.DataFrame.from_dict(results)
+    for column in data_frame.columns:
+        data_frame[column] = data_frame.apply(value_extract, column=column, axis=1)
+
+    return data_frame
 
 def extract_values(key, entity, predicate, direction):
 
@@ -101,8 +126,9 @@ def home_page(entity):
         type_state = extract_values('type', entity, rdflib.RDF.type, 'right').iloc[0]['value']
 
         attributes = pandas.concat([
+                        extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right'),  
+                extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right'),
             extract_values('type', entity, rdflib.RDF.type, 'right'),
-            extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right')  
         ])
         
         if type_state == 'Class':
@@ -122,13 +148,82 @@ def home_page(entity):
                 extract_values('range', entity, rdflib.RDFS.range, 'right')
             ])
 
-        attributes = pandas.concat([
-                attributes,
-                extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right')
-            ])
+        # attributes = pandas.concat([
+        #         attributes,
+        #         extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right'),  
+        #         extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right')
+        #     ])
 
         label = extract_values('label', entity, rdflib.RDFS.label, 'right').iloc[0]['value']
-        data = {'label': label, 'attributes': attributes.to_dict('records')}
+
+        # see if you can pull an instance of a work and all attached 
+
+        select_query = '''
+            prefix fiaf: <https://ontology.fiafcore.org/>
+            select distinct ?workvariant where {
+                ?workvariant rdf:type fiaf:WorkVariant
+            }
+        '''
+
+        endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
+        graphdb = sparql_query(select_query, endpoint).drop_duplicates()
+
+        # in the future your uuid should be hardcoded.
+
+        example = [x['workvariant'] for x in graphdb.to_dict('records')][0]
+
+        print(example)
+
+
+        select_query = '''
+            prefix fiaf: <https://ontology.fiafcore.org/>
+            select distinct ?a ?b ?c where {
+                values ?a {<'''+example+'''>}
+                ?a ?b ?c
+            }
+        '''
+
+        endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
+        graphdb = sparql_query(select_query, endpoint).drop_duplicates()
+        rebuilt = rdflib.Graph()
+        print(len(graphdb))
+        print(type(graphdb))
+        for index, row in graphdb.iterrows():
+            print(row)
+            print(len(row))
+        # for x in graphdb:
+        #     print(type(x), x)
+            if 'genid' in row['c']:
+                rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.BNode()))
+
+            elif 'http' in row['c']:
+                rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.URIRef(row['c'])))
+            else:
+                rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.Literal(row['c'])))
+
+        turtle = rebuilt.serialize(format='ttl')[:-2]
+        jsonld = rebuilt.serialize(format='json-ld')
+
+        print(turtle)
+        print(jsonld)
+
+
+        print(list(turtle))
+
+        # for x in graphdb.to_dict('records'):
+        #     print(x)
+            # print(f"{x['activity_label']} ({x['activity']}) // {x['agent_label']} ({x['agent']})")
+            # print('\n')
+
+
+
+
+        # example = 
+
+        data = {'label': label, 'attributes': attributes.to_dict('records'), 'turtle':turtle, 'json':jsonld}
+
+
+
 
         return render_template('page.html', data=data, colour='mediumaquamarine')
 
