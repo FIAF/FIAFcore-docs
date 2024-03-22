@@ -3,20 +3,12 @@ Documentation for the [FIAFcore](https://github.com/FIAF/FIAFcore) ontology.
 
 **Build**
 
-The documentation web app comprises three distinct docker containers which can be built using the following script.
+Docker images for the documentation web app can be built by executing `./build.sh`
 
-```
-./build.sh
-```
-
-Resulting images can be seen by running `docker images -a`.
+Resulting images can be seen by running `docker images -a`
 
 **Deploy**
 
-The three images can then be deployed by simply running
+Images can be deployed to containers by running `docker compose up -d`
 
-```
-docker compose up -d
-```
-
-Resulting containers can be seen by running `docker ps`.
+Resulting containers can be seen by running `docker ps`
