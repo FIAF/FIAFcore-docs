@@ -1,9 +1,9 @@
 # FIAFcore-docs
-Documentation application for the [FIAFcore](https://github.com/FIAF/FIAFcore) ontology.
+Documentation for the [FIAFcore](https://github.com/FIAF/FIAFcore) ontology.
 
 **Build**
 
-The documentation web app comprises three distinct docker containers which need to be built using the following commands.
+The documentation web app comprises three distinct docker containers which can be built using the following script.
 
 ```
 ./build.sh
@@ -13,7 +13,7 @@ Resulting images can be seen by running `docker images -a`.
 
 **Deploy**
 
-The three images can be deployed by simply running
+The three images can then be deployed by simply running
 
 ```
 docker compose up -d
