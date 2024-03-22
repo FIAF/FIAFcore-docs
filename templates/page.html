@@ -8,7 +8,7 @@
 <body style='background:{{ colour }};'>
   {% include 'home.html' %}
   <div style='width:600px; margin: 0 auto;'>
-    <div style='padding-top:100px;padding-bottom:100px'>
+    <div style='padding-top:50px;padding-bottom:50px'>
       <tspan class="text title">{{ data.label }}</tspan><br>
     </div>
 
@@ -35,6 +35,9 @@
       {% endfor %}
     </table>
   </div>
+
+{% if data.mode == 'resource' %}
+{% else %}
 
 
     <div style='width:600px; margin: 0 auto;'>
@@ -63,6 +66,8 @@
         <pre class="lead text value" style="color:mediumaquamarine; text-align: left; " id="testbed-meta">{{data.json}}</pre>
       </div>
     </center>
+
+    {% endif %}
       <br> <br>
 
 
