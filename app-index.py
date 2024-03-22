@@ -28,11 +28,23 @@ for s,p,o in graph.triples((None, rdflib.RDF.type, rdflib.OWL.Class)):
 
 app = Flask(__name__)
 
+
+def language():
+
+    request_lang = request.headers.get('Accept-Language').split(',')
+    request_lang = [x for x in request_lang if x in ['en', 'es', 'fr']]
+    if len(request_lang):
+        return request_lang[0]
+    else:
+        return 'en'
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
 
-    accept_language_header = request.headers.get('Accept-Language')
-    print('@@@', accept_language_header)
+
+    lang = language()
+    print('@@@', lang)
 
     # if en,es,fr in here translate, otherwise en as fallback?
 
