@@ -33,11 +33,3 @@ td {
     padding-bottom: 10px;
     padding-right: 40px;
 }
-
-details > summary {
-    list-style-type: '';
-}
-
-details[open] > summary {
-    list-style-type: '';
-}

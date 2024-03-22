@@ -1,0 +1,31 @@
+
+<html>
+<head>
+    <title>FIAFcore</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:100,200,300,400,500,600,700,800,900"
+        rel="stylesheet" />
+</head>
+
+<body style='background:#66cdaa;'>
+    {% include 'home.html' %}
+    <div style='width:600px; margin: 0 auto;'>
+
+        <div style='padding-top:100px;padding-bottom:100px'>
+            <tspan class="text title"></tspan><br>
+        </div>
+
+        <tspan class="text value">Search Results for <b>'{{ search_term }}'</b></tspan>
+        <br> <br>
+        {% for result in search_results %}
+        <a href="{{result.uri}}" style="text-decoration:none;">
+            <div style="background-color: #A3E1CC;padding:10px">
+                <tspan class="text key" style="text-decoration:none;"> {{ result.label }}</tspan><br>
+                <tspan class="text value" style="text-decoration:none;"> {{ result.description }}</tspan><br>
+            </div>
+        </a><br>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

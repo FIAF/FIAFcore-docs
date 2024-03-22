@@ -5,24 +5,76 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Quicksand:100,200,300,400,500,600,700,800,900"
         rel="stylesheet" />
+
+    <style>
+        form {
+            background-color: #A3E1CC;
+            width: 300px;
+            height: 44px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        input {
+            all: unset;
+            font: 16px system-ui;
+            height: 100%;
+            width: 100%;
+            padding: 6px 10px;
+        }
+
+        ::placeholder {
+            color: #fff;
+            opacity: 0.7;
+        }
+
+        button {
+            all: unset;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+        }
+    </style>
 </head>
 
-<body style='background:mediumaquamarine;'>
+<body style='background:#66cdaa;'>
     {% include 'home.html' %}
     <div style='width:600px; margin: 0 auto;'>
-        <div style='padding-top:100px;padding-bottom:100px'>
+        <div style='padding-top:50px;padding-bottom:50px'>
             <tspan class="text title">FIAFcore</tspan><br>
         </div>
         <tspan class="text value">
             <a href="https://fiafcore.org/">FIAFcore</a> is an ontology for film archives, based primarily on the <a
                 href="https://www.fiafnet.org/pages/E-Resources/Cataloguing-Manual.html">FIAF Cataloguing Manual</a>. It
-            is intended to
-            facilitate data harmonisation and exchange between institutions.
+            is intended to facilitate data harmonisation and exchange between institutions. It is also the framework for
+            the FIAF Knowledge Graph, which can be queried at
+            <a
+                href="https://query.fiafcore.org/sparql?name=&infer=true&sameAs=true&query=PREFIX%20rdf%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0APREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0Aselect%20%3Fworkvariant%20%3Fworkvariantlabel%20where%20%7B%20%0A%09%3Fworkvariant%20rdf%3Atype%20%3Chttps%3A%2F%2Fontology.fiafcore.org%2FWorkVariant%3E%20.%0A%20%20%20%20%3Fworkvariant%20rdfs%3Alabel%20%3Fworkvariantlabel%20.%0A%7D%20limit%20100%20%0A">query.fiafcore.org</a>.
+
+
         </tspan><br><br>
         <tspan class="text key">primary classes</tspan>
         <div id="paper"></div>
-        <tspan class="text key">ontology search</tspan>
-        <br><br>
+        <tspan class="text key">ontology search</tspan><br><br>
+
+
+        <form action="/search" method="POST">
+            <input type="text" name="search" placeholder="Search...">
+
+            <button><svg style="  color: #fff;
+        fill: currentColor;
+        width: 24px;
+        height: 24px;
+        padding: 10px;" viewBox="0 0 1024 1024">
+                    <path class="path1"
+                        d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z">
+                    </path>
+                </svg></button>
+        </form>
+
+
         <table style='border: 0px solid black; border-collapse: collapse;'>
             <tr>
                 <td>
@@ -65,6 +117,11 @@
                     </a>
                 </td>
             </tr>
+        </table><br>
+        <hr style="border: 1px solid black;">
+        <sub>
+            <tspan class="text">The FIAFcore ontology is licensed under <u>CC-BY-4.0</u>.</tspan>
+        </sub>
     </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>let graph_terms = JSON.parse('{{ data|tojson() }}')</script>
