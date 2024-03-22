@@ -3,7 +3,6 @@ from flask import Flask, render_template, request
 import json
 import pathlib
 import rdflib
-import requests
 
 with open(pathlib.Path.cwd() / 'static' / 'summary.json') as data:
     data = json.load(data)
@@ -31,6 +30,11 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
+
+    accept_language_header = request.headers.get('Accept-Language')
+    print('@@@', accept_language_header)
+
+    # if en,es,fr in here translate, otherwise en as fallback?
 
     return render_template('index.html', data=data)
 
