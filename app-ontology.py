@@ -79,8 +79,10 @@ def pull_label(entity, language):
     else:
         return str(label[0])
 
-graph = rdflib.Graph()
-graph.parse(pathlib.Path.cwd() / 'static' / 'ontology.ttl', format='ttl')
+# this should be drawing from the web
+
+graph = rdflib.Graph().parse('https://raw.githubusercontent.com/FIAF/FIAFcore/v1.1.0/FIAFcore.ttl', format='ttl')
+# graph.parse(pathlib.Path.cwd() / 'static' / 'ontology.ttl', format='ttl')
 
 # parsing work to remove all unionOf nodes
 # while these are required in the ontology, they would be confusing in the documentation
@@ -125,9 +127,14 @@ def home_page(entity):
         current_language = 'en'
         type_state = extract_values('type', entity, rdflib.RDF.type, 'right').iloc[0]['value']
 
+
+        print('@@@', entity)
+        print('@@@', entity)
+        print('@@@', entity)
+
         attributes = pandas.concat([
-                        extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right'),  
-                extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right'),
+                #         extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right'),  
+                # extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right'),
             extract_values('type', entity, rdflib.RDF.type, 'right'),
         ])
         
@@ -135,9 +142,9 @@ def home_page(entity):
 
             attributes = pandas.concat([
                 attributes,
-                extract_values('parent classes', entity, rdflib.RDFS.subClassOf, 'right'),
-                extract_values('child classes', entity, rdflib.RDFS.subClassOf, 'left'),
-                extract_values('properties', entity, rdflib.RDFS.domain, 'left')
+                # extract_values('parent classes', entity, rdflib.RDFS.subClassOf, 'right'),
+                # extract_values('child classes', entity, rdflib.RDFS.subClassOf, 'left'),
+                # extract_values('properties', entity, rdflib.RDFS.domain, 'left')
             ])
 
         if type_state != 'Class':
@@ -148,11 +155,21 @@ def home_page(entity):
                 extract_values('range', entity, rdflib.RDFS.range, 'right')
             ])
 
-        # attributes = pandas.concat([
-        #         attributes,
-        #         extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right'),  
-        #         extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right')
-        #     ])
+        attributes = pandas.concat([
+                attributes,
+                extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right'),  
+                extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right')
+            ])
+        
+        if type_state == 'Class':
+
+            attributes = pandas.concat([
+                attributes,
+                extract_values('parent classes', entity, rdflib.RDFS.subClassOf, 'right'),
+                extract_values('child classes', entity, rdflib.RDFS.subClassOf, 'left'),
+                extract_values('properties', entity, rdflib.RDFS.domain, 'left')
+            ])
+
 
         label = extract_values('label', entity, rdflib.RDFS.label, 'right').iloc[0]['value']
 
@@ -160,8 +177,8 @@ def home_page(entity):
 
         select_query = '''
             prefix fiaf: <https://ontology.fiafcore.org/>
-            select distinct ?workvariant where {
-                ?workvariant rdf:type fiaf:WorkVariant
+            select distinct ?manifestation where {
+                ?manifestation rdf:type fiaf:'''+entity+'''
             }
         '''
 
@@ -170,7 +187,7 @@ def home_page(entity):
 
         # in the future your uuid should be hardcoded.
 
-        example = [x['workvariant'] for x in graphdb.to_dict('records')][0]
+        example = [x['manifestation'] for x in graphdb.to_dict('records')][0]
 
         print(example)
 
@@ -202,10 +219,12 @@ def home_page(entity):
                 rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.Literal(row['c'])))
 
         turtle = rebuilt.serialize(format='ttl')[:-2]
-        jsonld = rebuilt.serialize(format='json-ld')
+        # jsonld = rebuilt.serialize(format='json-ld')
+        # rdfxml = rebuilt.serialize(format='xml')
+        # nt = rebuilt.serialize(format='nt')
 
         print(turtle)
-        print(jsonld)
+        # print(jsonld)
 
 
         print(list(turtle))
@@ -220,7 +239,7 @@ def home_page(entity):
 
         # example = 
 
-        data = {'label': label, 'attributes': attributes.to_dict('records'), 'turtle':turtle, 'json':jsonld}
+        data = {'label': label, 'attributes': attributes.to_dict('records'), 'turtle':turtle}
 
 
 
