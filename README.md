@@ -1,18 +1,14 @@
 # FIAFcore-docs
-Documentation application for the [FIAFcore ontology](https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl).
+Documentation for the [FIAFcore](https://github.com/FIAF/FIAFcore) ontology.
 
-## Dev deployment
+**Build**
 
-A local instance of the application can be run using the following command
+Docker images for the documentation web app can be built by executing `./build.sh`
 
->python3 app.py
+Resulting images can be seen by running `docker images -a`
 
-## Docker deployment
+**Deploy**
 
-The Docker image of the Flask app can be built using the following command
+Images can be deployed to containers by running `docker compose up -d`
 
->docker build -t fiafcore-docs -f Dockerfile .
-
-The instance can then be deployed using Docker Compose via the following command
-
-> docker compose up -d
+Resulting containers can be seen by running `docker ps`

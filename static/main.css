@@ -1,187 +1,66 @@
-
-.nav-container {
-  width: 100%;
-  height: 50px;
-  background-color: #006666;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row
+.text {
+    font-family: Quicksand;
+    color: black;
 }
 
-.nav-item {
-  width: 100px;
-  height: 30px;
-  background-color: #006666;
-  margin-left: 10px;
-  margin-right: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  text-align: left;
-  display: flex;
+.title {
+    font-weight: 100;
+    font-size: 48px;
 }
 
-.nav-text {
-  padding-top: 0px;
-  fill: #ffffff;
-  font-family: "Quicksand";
-  font-weight: 1000;
-  font-size: 20px;
-  text-anchor: start;
-  text-decoration: none;
-  color: #ffffff;
+.key {
+    font-weight: 1000;
+    font-size: 16px;
 }
 
-.language-selector{
-
-  text-decoration: none;
-  background: #006666;
-  border: 0px transparent;
-  width: 100px;
-  height:25px;
-  font-family: "Quicksand";
-  font-weight: 600;
-  font-size: 16px;
-  text-anchor: start;
-  color: #FFFFFF;
+.value {
+    font-weight: 400;
+    font-size: 16px;
 }
 
-.language-selector:focus {
-  outline: none;
+.home {
+    font-weight: 1000;
+    font-size: 16px;
 }
 
-.subject-text {
-  fill: #ffffff;
-  font-family: "Quicksand";
-  font-weight: 1000;
-  font-size: 48px;
-  text-anchor: start;
-  color: #000000;
+a {
+    text-decoration: underline;
+    color: black;
 }
 
-.key-text {
-  fill: #ffffff;
-  font-family: "Quicksand";
-  font-weight: 800;
-  font-size: 16px;
-  text-anchor: start;
-  color: #000000;
-}
-
-.blank-text {
-  fill: #ffffff;
-  font-family: "Quicksand";
-  font-weight: 200;
-  font-size: 16px;
-  text-anchor: start;
-  color: #000000;
-}
-
-.value-text {
-  fill: #ffffff;
-  font-family: "Quicksand";
-  font-weight: 400;
-  font-size: 16px;
-  text-anchor: start;
-  color: #006666;
-  text-decoration: none;
-}
-
-.error-text {
-  fill: #ffffff;
-  font-family: "Quicksand";
-  font-weight: 100;
-  font-size: 32px;
-  text-anchor: start;
-  color: black;
-  text-decoration: none;
+th,
+td {
+    padding-bottom: 10px;
+    padding-right: 40px;
 }
 
 
-
-::placeholder { 
-  color: black;
-  background-color: #ffffff;
-  opacity: 1; 
-  border: none;
-  padding: 0px;
+form {
+    background-color: #A3E1CC;
+    width: 300px;
+    height: 44px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-
-
-a:link {text-decoration: none;}
-
-#myDropdown {
-  /* padding-left: 10px; */
-
-  background-color:#006666;
-
+input {
+    all: unset;
+    font: 16px system-ui;
+    height: 100%;
+    width: 100%;
+    padding: 6px 10px;
 }
 
-#myInput {
-  font-family: "Quicksand"; 
-  font-size: 16px;
-  min-width: 220px;
-  max-width: 220px;
-  /* padding-left: 10px; */
-  /* text-decoration: none;
-  background: green;
-  min-width: 250px;
-  max-width: 250px;
-  font-family: "Quicksand"; 
-  /* font-weight: 600;
-  font-size: 16px;
-  text-anchor: start;
-  color: white;
-  padding: 14px 20px 10px 20px; */ */
-
+::placeholder {
+    color: #fff;
+    opacity: 0.7;
 }
 
-
-
-#myInput:focus { 
-
-  outline: none;
-
-
-
-
-} 
-
-.dropdown {
-  position: relative;
-  /* background-color:; */
-  width: 230px; 
-  display: inline-block;
-  border-width: 2px;
-  /* background-color: #006666; */
+button {
+    all: unset;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
 }
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: white;
- /* max-height: 100px; */
-  width: 230px; 
-  overflow: hidden;
-  z-index: 1;
-  border: solid #000;
-  font-family: "Quicksand";
-  font-weight: 600;
-  font-size: 16px;
-border-width: 0 1px;
-}
-
-.dropdown-content a {
-  color: black;
-  background-color: white;
-  padding: 12px 16px;
-  max-width: 230px; 
-  /* min-width: 230px;
-  max-width: 230px; */
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown a:hover {background-color: #006666;}
-
-.show {display: block;}

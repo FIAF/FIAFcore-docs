@@ -1,0 +1,105 @@
+{
+    "nodes": [
+        {
+            "handle": "work",
+            "label_en": "Work/Variant",
+            "label_es": "Obra/Variante",
+            "label_fr": "l'Œuvre/la Variante",
+            "url": "WorkVariant",
+            "x": 100,
+            "y": 50
+        },
+        {
+            "handle": "manifestation",
+            "label_en": "Manifestation",
+            "label_es": "Manifestación",
+            "label_fr": "Manifestation",
+            "url": "Manifestation",
+            "x": 100,
+            "y": 120
+        },
+        {
+            "handle": "item",
+            "label_en": "Item",
+            "label_es": "Ítem",
+            "label_fr": "Item",
+            "url": "Item",
+            "x": 100,
+            "y": 190
+        },
+        {
+            "handle": "carrier",
+            "label_en": "Carrier",
+            "label_es": "Portador",
+            "label_fr": "Article",
+            "url": "Carrier",
+            "x": 100,
+            "y": 260
+        },
+        {
+            "handle": "event",
+            "label_en": "Event",
+            "label_es": "Evento",
+            "label_fr": "Événement",
+            "url": "Event",
+            "x": 250,
+            "y": 155
+        },
+        {
+            "handle": "activity",
+            "label_en": "Activity",
+            "label_es": "Actividad",
+            "label_fr": "Activité",
+            "url": "Activity",
+            "x": 350,
+            "y": 155
+        },
+        {
+            "handle": "agent",
+            "label_en": "Agent",
+            "label_es": "Agente",
+            "label_fr": "Agent",
+            "url": "Agent",
+            "x": 450,
+            "y": 155
+        }
+    ],
+    "links": [
+        {
+            "source": "work",
+            "target": "manifestation"
+        },
+        {
+            "source": "manifestation",
+            "target": "item"
+        },
+        {
+            "source": "item",
+            "target": "carrier"
+        },
+        {
+            "source": "work",
+            "target": "event"
+        },
+        {
+            "source": "manifestation",
+            "target": "event"
+        },
+        {
+            "source": "item",
+            "target": "event"
+        },
+        {
+            "source": "carrier",
+            "target": "event"
+        },
+        {
+            "source": "event",
+            "target": "activity"
+        },
+        {
+            "source": "activity",
+            "target": "agent"
+        }
+    ]
+}

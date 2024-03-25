@@ -1,0 +1,107 @@
+<html>
+
+<head>
+    <title>FIAFcore</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:100,200,300,400,500,600,700,800,900"
+        rel="stylesheet" />
+
+
+</head>
+
+<body style='background:#66cdaa;'>
+    {% include 'home.html' %}
+    <div style='width:600px; margin: 0 auto;'>
+        <div style='padding-top:50px;padding-bottom:50px'>
+            <tspan class="text title">FIAFcore</tspan><br>
+        </div>
+        <tspan class="text value">
+            <a href="https://fiafcore.org/">FIAFcore</a> est une ontologie pour les archives cinématographiques, basée principalement sur <a
+                href="https://www.fiafnet.org/pages/E-Resources/Cataloguing-Manual.html">Le Manuel de catalogage de la FIAF</a>
+                . Elle est destinée à faciliter l'harmonisation et l'échange de données entre les institutions.
+                
+                C'est également le cadre du
+                le FIAF Knowledge Graph, qui peut être consulté sur 
+
+
+            <a
+                href="https://query.fiafcore.org/sparql?name=&infer=true&sameAs=true&query=PREFIX%20rdf%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0APREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0Aselect%20%3Fworkvariant%20%3Fworkvariantlabel%20where%20%7B%20%0A%09%3Fworkvariant%20rdf%3Atype%20%3Chttps%3A%2F%2Fontology.fiafcore.org%2FWorkVariant%3E%20.%0A%20%20%20%20%3Fworkvariant%20rdfs%3Alabel%20%3Fworkvariantlabel%20.%0A%7D%20limit%20100%20%0A">query.fiafcore.org</a>.
+
+
+        </tspan><br><br>
+        <tspan class="text key">classes primaires</tspan>
+        <div id="paper"></div>
+        <tspan class="text key">recherche d'ontologie</tspan><br><br>
+
+
+        <form action="/search" method="POST">
+            <input type="text" name="search" placeholder="Rechercher...">
+
+            <button><svg style="  color: #fff;
+        fill: currentColor;
+        width: 24px;
+        height: 24px;
+        padding: 10px;" viewBox="0 0 1024 1024">
+                    <path class="path1"
+                        d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z">
+                    </path>
+                </svg></button>
+        </form>
+
+
+
+        <table style='border: 0px solid black; border-collapse: collapse;'>
+            <tr>
+                <td>
+                    <tspan class="text key">ressources</tspan>
+                </td>
+                <td>
+                    <a href="https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl">
+                        <tspan class="text value">Turtle</tspan>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <tspan class="text key"></tspan>
+                </td>
+                <td>
+                    <a href="https://github.com/FIAF/FIAFcore">
+                        <tspan class="text value">GitHub</tspan>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <tspan class="text key"></tspan>
+                </td>
+                <td>
+                    <a
+                        href="https://service.tib.eu/webvowl/#iri=https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl">
+                        <tspan class="text value">WebVOWL</tspan>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <tspan class="text key">contact</tspan>
+                </td>
+                <td>
+                    <a href="mailto:cdc@fiafnet.org">
+                        <tspan class="text value">cdc@fiafnet.org</tspan>
+                    </a>
+                </td>
+            </tr>
+        </table><br>
+        <hr style="border: 1px solid black;">
+        <sub>
+            <tspan class="text">L'ontologie FIAFcore est placée sous licence <u>CC-BY-4.0</u>.</tspan>
+        </sub>
+    </div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>let lang = '{{ lang }}'</script>
+    <script src="../static/primary.js"></script>
+
+</body>
+
+</html>

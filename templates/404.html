@@ -1,41 +1,24 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <title>Error</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
-
+  <title>Resource cannot be found.</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
 </head>
 
-<body style="margin: 0; padding: 0">
-
-    <div class="nav-container">
-
-        <div class="nav-item" style='flex-grow:1'> 
-          <tspan class="nav-text">
-            <a href="https://fiafcore.org/" class="nav-text" style="text-decoration:none">FIAFcore</a>
-          </tspan> 
-        </div>
-
-    
-        <div class="nav-item">     
-          <form method="POST" style="padding-top:15px">
-            <select name="lang"  id="lang" class='language-selector' onchange="this.form.submit()">
-              <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
-              <option value="es" {% if lang == 'es' %}selected{% endif %}>Español</option>
-              <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
-            </select>
-          </form>  
-        </div>
-    
-      </div>
-
-
-    <div id="title-box" style="background:white;padding-top: 80px;width:800px;margin: auto">
-        <tspan class="error-text" text-anchor="left">Entity does not exist. </tspan><br><br>
-   
-
+<body style='background:{{ colour }}'>
+  {% include 'home.html' %}
+  <div style='width:600px; margin: 0 auto;'>
+    <div style='padding-top:100px;padding-bottom:100px'>
+      <tspan class="text title">Error</tspan><br>
     </div>
-</body>
 
+    <table style='border: 0px solid black;'>
+      <tr>
+        <td>
+          <tspan class="text value">Resource cannot be found.</tspan>
+        </td>
+      </tr>
+  </div>
+
+</body>
 </html>
