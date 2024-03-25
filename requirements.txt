@@ -5,4 +5,5 @@ numpy==1.26.2
 pandas==2.2.1
 pydash==7.0.3
 rdflib==6.2.0
+requests==2.31.0
 
