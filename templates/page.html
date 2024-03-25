@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <title>{{ data.label }}</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
@@ -12,10 +13,10 @@
       <tspan class="text title">{{ data.label }}</tspan><br>
     </div>
 
-    <table style='border: 0px solid black;'>        
+    <table style='border: 0px solid black;'>
       {% for x in data.attributes %}
       <tr>
-        <td style="vertical-align: top;width:120px">
+        <td style="vertical-align: top;width:140px">
           {% if x.pos == 0 %}
           <tspan class="text key">{{x.key}}</tspan>
           {% else %}
@@ -27,7 +28,7 @@
           <tspan class="text value">{{x.value}}</tspan>
           {% else %}
           <a href="{{x.link}}">
-          <tspan class="text value">{{x.value}}</tspan>
+            <tspan class="text value">{{x.value}}</tspan>
           </a>
           {% endif %}
         </td>
@@ -36,30 +37,27 @@
     </table>
   </div>
 
-{% if data.mode == 'resource' %}
-{% else %}
+  {% if data.mode == 'example' %}
 
-
-    <div style='width:600px; margin: 0 auto;'>
-   <tspan class="text key">example </tspan><tspan class="text value">(turtle)</tspan><br><br>
-    </div>
-    <!-- <div style=' margin: 0 auto;'> -->
-      <center>
-    <div style="background-color: black;color:aquamarine;padding: 10px; padding-left:20px ;border-radius: 15px;display: inline-block; align">
-   
-
-      <pre class="lead text value" style="color:mediumaquamarine; text-align: left; " id="testbed-meta">{{data.turtle}}</pre>
+  <div style='width:600px; margin: 0 auto;'>
+    <tspan class="text key">example </tspan>
+    <tspan class="text value">(turtle)</tspan><br><br>
+  </div>
+  <center>
+    <div
+      style="background-color: black;color:aquamarine;padding: 10px; padding-left:20px ;border-radius: 15px;display: inline-block;">
+      <pre class="lead text value" style="color:mediumaquamarine; text-align: left; "
+        id="testbed-meta">{{data.turtle}}</pre>
     </div>
   </center>
 
 
- 
-
-    {% endif %}
-      <br> <br>
+  {% endif %}
+  <br> <br>
 
 
   </div>
 
 </body>
+
 </html>

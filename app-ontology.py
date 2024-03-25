@@ -1,10 +1,21 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import json
 import pandas
 import pathlib
 import pydash
 import rdflib
 import requests
+
+def language():
+
+    ''' Query request for language. '''
+
+    request_lang = request.headers.get('Accept-Language').split(',')
+    request_lang = [x for x in request_lang if x in ['en', 'es', 'fr']]
+    if len(request_lang):
+        return request_lang[0]
+    else:
+        return 'en'
 
 def value_extract(row, column):
 
@@ -30,9 +41,10 @@ def sparql_query(query, service):
 
     return data_frame
 
-def extract_values(key, entity, predicate, direction):
+def extract_values(key, entity, predicate, direction, lang):
 
-    current_language = 'en'
+    none_dict = {'en':'None', 'es':'Ninguno', 'fr':'Aucun'}
+
     entity_id = rdflib.URIRef(f'https://ontology.fiafcore.org/{entity}')
 
     if direction == 'right':
@@ -46,10 +58,10 @@ def extract_values(key, entity, predicate, direction):
 
     for x in property_matches:
         if type(x) == type(rdflib.Literal('')):
-            if x.language == current_language:
+            if x.language == lang:
                 recollect.append({'key':key, 'value':str(x), 'link':''})
         elif type(x) == type(rdflib.URIRef('')):
-            labels = [c for a,b,c in graph.triples((x, rdflib.RDFS.label, None)) if c.language == current_language]
+            labels = [c for a,b,c in graph.triples((x, rdflib.RDFS.label, None)) if c.language == lang]
             if not len(labels):
                 lab = 'No label available.'
             else:
@@ -61,7 +73,7 @@ def extract_values(key, entity, predicate, direction):
             pass # blank nodes seem to still be here??? why
 
     if not len(recollect):
-        recollect.append({'key': key, 'value':'None', 'link':''})
+        recollect.append({'key': key, 'value':none_dict[lang], 'link':''})
 
     recollect = sorted(recollect, key=lambda x: x['value'])
     recollect = pandas.DataFrame(recollect)
@@ -79,10 +91,7 @@ def pull_label(entity, language):
     else:
         return str(label[0])
 
-# this should be drawing from the web
-
 graph = rdflib.Graph().parse('https://raw.githubusercontent.com/FIAF/FIAFcore/v1.1.0/FIAFcore.ttl', format='ttl')
-# graph.parse(pathlib.Path.cwd() / 'static' / 'ontology.ttl', format='ttl')
 
 # parsing work to remove all unionOf nodes
 # while these are required in the ontology, they would be confusing in the documentation
@@ -124,125 +133,93 @@ def home_page(entity):
 
     if entity in entities:
 
-        current_language = 'en'
-        type_state = extract_values('type', entity, rdflib.RDF.type, 'right').iloc[0]['value']
 
+        lang = language()
+        
+        type_dict = {'en':'type', 'es':'tipo', 'fr':'type'}
+        domain_dict = {'en':'domain', 'es':'dominio', 'fr':'domaine'}
+        range_dict = {'en':'range', 'es':'rango', 'fr':'étendue'}
+        descript_dict = {'en':'description', 'es':'descripción', 'fr':'description'}
+        prop_dict = {'en':'properties', 'es':'propiedades', 'fr':'propriétés'}
+        ref_dict = {'en':'reference', 'es':'referencia', 'fr':'référence'}
+        parent_dict = {'en':'parent classes', 'es':'clases parentales', 'fr':'classes parentes'}
+        child_dict = {'en':'child classes', 'es':'clases infantiles', 'fr':"classes d'enfants"}
 
-        print('@@@', entity)
-        print('@@@', entity)
-        print('@@@', entity)
+        type_state = extract_values(type_dict[lang], entity, rdflib.RDF.type, 'right', lang).iloc[0]['value']
 
         attributes = pandas.concat([
-                #         extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right'),  
-                # extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right'),
-            extract_values('type', entity, rdflib.RDF.type, 'right'),
+            extract_values(type_dict[lang], entity, rdflib.RDF.type, 'right', lang),
         ])
         
-        if type_state == 'Class':
-
-            attributes = pandas.concat([
-                attributes,
-                # extract_values('parent classes', entity, rdflib.RDFS.subClassOf, 'right'),
-                # extract_values('child classes', entity, rdflib.RDFS.subClassOf, 'left'),
-                # extract_values('properties', entity, rdflib.RDFS.domain, 'left')
-            ])
-
         if type_state != 'Class':
 
             attributes = pandas.concat([
                 attributes,
-                extract_values('domain', entity, rdflib.RDFS.domain, 'right'),
-                extract_values('range', entity, rdflib.RDFS.range, 'right')
+                extract_values(domain_dict[lang], entity, rdflib.RDFS.domain, 'right', lang),
+                extract_values(range_dict[lang], entity, rdflib.RDFS.range, 'right', lang)
             ])
 
         attributes = pandas.concat([
                 attributes,
-                extract_values('reference', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right'),  
-                extract_values('description', entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right')
+                extract_values(ref_dict[lang], entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/source'), 'right', lang),  
+                extract_values(descript_dict[lang], entity, rdflib.URIRef('http://purl.org/dc/elements/1.1/description'), 'right', lang)
             ])
         
         if type_state == 'Class':
 
             attributes = pandas.concat([
                 attributes,
-                extract_values('parent classes', entity, rdflib.RDFS.subClassOf, 'right'),
-                extract_values('child classes', entity, rdflib.RDFS.subClassOf, 'left'),
-                extract_values('properties', entity, rdflib.RDFS.domain, 'left')
+                extract_values(parent_dict[lang], entity, rdflib.RDFS.subClassOf, 'right', lang),
+                extract_values(child_dict[lang], entity, rdflib.RDFS.subClassOf, 'left', lang),
+                extract_values(prop_dict[lang], entity, rdflib.RDFS.domain, 'left', lang)
             ])
 
+        label = extract_values('label', entity, rdflib.RDFS.label, 'right', lang).iloc[0]['value']
 
-        label = extract_values('label', entity, rdflib.RDFS.label, 'right').iloc[0]['value']
+        # if your entity is one of the primaries, then pull an example.
+        # Event should be in there, but there are currently none in the triplestore.
 
-        # see if you can pull an instance of a work and all attached 
+        if entity in ['WorkVariant', 'Manifestation', 'Item', 'Carrier', 'Activity', 'Agent']:
 
-        select_query = '''
-            prefix fiaf: <https://ontology.fiafcore.org/>
-            select distinct ?manifestation where {
-                ?manifestation rdf:type fiaf:'''+entity+'''
-            }
-        '''
+            select_query = '''
+                prefix fiaf: <https://ontology.fiafcore.org/>
+                select distinct ?element where {
+                    ?element rdf:type fiaf:'''+entity+'''
+                }
+            '''
 
-        endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
-        graphdb = sparql_query(select_query, endpoint).drop_duplicates()
+            endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
+            graphdb = sparql_query(select_query, endpoint).drop_duplicates()
 
-        # in the future your uuid should be hardcoded.
+            # in the future your uuids should be hardcoded for each example.
 
-        example = [x['manifestation'] for x in graphdb.to_dict('records')][0]
+            example = [x['element'] for x in graphdb.to_dict('records')][0]
+            select_query = '''
+                prefix fiaf: <https://ontology.fiafcore.org/>
+                select distinct ?a ?b ?c where {
+                    values ?a {<'''+example+'''>}
+                    ?a ?b ?c
+                }
+            '''
 
-        print(example)
+            endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
+            graphdb = sparql_query(select_query, endpoint).drop_duplicates()
+            rebuilt = rdflib.Graph()
+            for index, row in graphdb.iterrows():
+                if 'genid' in row['c']:
+                    rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.BNode()))
+                # elif 'genid' in row['a']:
+                #     rebuilt.add((rdflib.BNode(), rdflib.URIRef(row['b']), rdflib.URIRef(row['c'])))                    
+                elif 'http' in row['c']:
+                    rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.URIRef(row['c'])))
+                else:
+                    rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.Literal(row['c'])))
 
+            turtle = rebuilt.serialize(format='ttl')[:-2]
 
-        select_query = '''
-            prefix fiaf: <https://ontology.fiafcore.org/>
-            select distinct ?a ?b ?c where {
-                values ?a {<'''+example+'''>}
-                ?a ?b ?c
-            }
-        '''
-
-        endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
-        graphdb = sparql_query(select_query, endpoint).drop_duplicates()
-        rebuilt = rdflib.Graph()
-        print(len(graphdb))
-        print(type(graphdb))
-        for index, row in graphdb.iterrows():
-            print(row)
-            print(len(row))
-        # for x in graphdb:
-        #     print(type(x), x)
-            if 'genid' in row['c']:
-                rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.BNode()))
-
-            elif 'http' in row['c']:
-                rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.URIRef(row['c'])))
-            else:
-                rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.Literal(row['c'])))
-
-        turtle = rebuilt.serialize(format='ttl')[:-2]
-        # jsonld = rebuilt.serialize(format='json-ld')
-        # rdfxml = rebuilt.serialize(format='xml')
-        # nt = rebuilt.serialize(format='nt')
-
-        print(turtle)
-        # print(jsonld)
-
-
-        print(list(turtle))
-
-        # for x in graphdb.to_dict('records'):
-        #     print(x)
-            # print(f"{x['activity_label']} ({x['activity']}) // {x['agent_label']} ({x['agent']})")
-            # print('\n')
-
-
-
-
-        # example = 
-
-        data = {'label': label, 'attributes': attributes.to_dict('records'), 'turtle':turtle}
-
-
-
+            data = {'label': label, 'attributes': attributes.to_dict('records'), 'turtle':turtle, 'mode':'example'}
+        else:
+            data = {'label': label, 'attributes': attributes.to_dict('records'), 'mode':'secondary'}
 
         return render_template('page.html', data=data, colour='mediumaquamarine')
 
