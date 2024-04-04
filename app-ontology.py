@@ -91,7 +91,7 @@ def pull_label(entity, language):
     else:
         return str(label[0])
 
-graph = rdflib.Graph().parse('https://raw.githubusercontent.com/FIAF/FIAFcore/v1.1.0/FIAFcore.ttl', format='ttl')
+graph = rdflib.Graph().parse('https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl', format='ttl')
 
 # parsing work to remove all unionOf nodes
 # while these are required in the ontology, they would be confusing in the documentation

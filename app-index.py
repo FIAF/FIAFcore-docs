@@ -5,7 +5,7 @@ import rdflib
 
 # searchable items are all classes, properties and named individuals.
 
-graph = rdflib.Graph().parse('https://raw.githubusercontent.com/FIAF/FIAFcore/v1.1.0/FIAFcore.ttl', format='ttl')
+graph = rdflib.Graph().parse('https://raw.githubusercontent.com/FIAF/FIAFcore/main/FIAFcore.ttl', format='ttl')
 
 def candidates(lang):
     searchable_items = list()
