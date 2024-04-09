@@ -29,6 +29,7 @@ def home_page(resource):
             ?entity fiaf:hasIdentifier ?id .
             ?id fiaf:hasIdentifierValue ?id_value .
             ?id fiaf:hasIdentifierAuthority ?auth .
+            ?auth rdfs:label ?auth_label .
             }
     '''
 
@@ -56,8 +57,12 @@ def home_page(resource):
                     attributes.append({'key':type_dict[lang], 'value':c, 'link':o, 'pos':0})
 
         for i, x in enumerate(graph.triples((None, rdflib.URIRef(f'https://ontology.fiafcore.org/hasIdentifier'), None))):
+            id_value = ''
             for a,b,c in graph.triples((x[2], rdflib.URIRef(f'https://ontology.fiafcore.org/hasIdentifierValue'), None)):
-                id_value = c
+                id_value += c
+            for a,b,c in graph.triples((x[2], rdflib.URIRef(f'https://ontology.fiafcore.org/hasIdentifierAuthority'), None)):
+                for d,e,f in graph.triples((c, rdflib.RDFS.label, None)):        
+                    id_value += f' ({f})'
             attributes.append({'key':ident_dict[lang], 'value':id_value, 'link':'', 'pos': i})
 
         data = {'label':label, 'attributes':attributes, 'mode':'resource'}
