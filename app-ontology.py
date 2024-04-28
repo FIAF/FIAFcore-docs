@@ -179,47 +179,49 @@ def home_page(entity):
         # if your entity is one of the primaries, then pull an example.
         # Event should be in there, but there are currently none in the triplestore.
 
-        if entity in ['WorkVariant', 'Manifestation', 'Item', 'Carrier', 'Activity', 'Agent']:
+        # if entity in ['WorkVariant', 'Manifestation', 'Item', 'Carrier', 'Activity', 'Agent']:
 
-            select_query = '''
-                prefix fiaf: <https://ontology.fiafcore.org/>
-                select distinct ?element where {
-                    ?element rdf:type fiaf:'''+entity+'''
-                }
-            '''
+        #     select_query = '''
+        #         prefix fiaf: <https://ontology.fiafcore.org/>
+        #         select distinct ?element where {
+        #             ?element rdf:type fiaf:'''+entity+'''
+        #         }
+        #     '''
 
-            endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
-            graphdb = sparql_query(select_query, endpoint).drop_duplicates()
+        #     endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
+        #     graphdb = sparql_query(select_query, endpoint).drop_duplicates()
 
-            # in the future your uuids should be hardcoded for each example.
+        #     # in the future your uuids should be hardcoded for each example.
 
-            example = [x['element'] for x in graphdb.to_dict('records')][0]
-            select_query = '''
-                prefix fiaf: <https://ontology.fiafcore.org/>
-                select distinct ?a ?b ?c where {
-                    values ?a {<'''+example+'''>}
-                    ?a ?b ?c
-                }
-            '''
+        #     example = [x['element'] for x in graphdb.to_dict('records')][0]
+        #     select_query = '''
+        #         prefix fiaf: <https://ontology.fiafcore.org/>
+        #         select distinct ?a ?b ?c where {
+        #             values ?a {<'''+example+'''>}
+        #             ?a ?b ?c
+        #         }
+        #     '''
 
-            endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
-            graphdb = sparql_query(select_query, endpoint).drop_duplicates()
-            rebuilt = rdflib.Graph()
-            for index, row in graphdb.iterrows():
-                if 'genid' in row['c']:
-                    rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.BNode()))
-                # elif 'genid' in row['a']:
-                #     rebuilt.add((rdflib.BNode(), rdflib.URIRef(row['b']), rdflib.URIRef(row['c'])))                    
-                elif 'http' in row['c']:
-                    rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.URIRef(row['c'])))
-                else:
-                    rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.Literal(row['c'])))
+        #     endpoint = 'https://query.fiafcore.org/repositories/fiaf-kg'
+        #     graphdb = sparql_query(select_query, endpoint).drop_duplicates()
+        #     rebuilt = rdflib.Graph()
+        #     for index, row in graphdb.iterrows():
+        #         if 'genid' in row['c']:
+        #             rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.BNode()))
+        #         # elif 'genid' in row['a']:
+        #         #     rebuilt.add((rdflib.BNode(), rdflib.URIRef(row['b']), rdflib.URIRef(row['c'])))                    
+        #         elif 'http' in row['c']:
+        #             rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.URIRef(row['c'])))
+        #         else:
+        #             rebuilt.add((rdflib.URIRef(row['a']), rdflib.URIRef(row['b']), rdflib.Literal(row['c'])))
 
-            turtle = rebuilt.serialize(format='ttl')[:-2]
+        #     turtle = rebuilt.serialize(format='ttl')[:-2]
 
-            data = {'label': label, 'attributes': attributes.to_dict('records'), 'turtle':turtle, 'mode':'example'}
-        else:
-            data = {'label': label, 'attributes': attributes.to_dict('records'), 'mode':'secondary'}
+        #     data = {'label': label, 'attributes': attributes.to_dict('records'), 'turtle':turtle, 'mode':'example'}
+        # else:
+        #     data = {'label': label, 'attributes': attributes.to_dict('records'), 'mode':'secondary'}
+
+        data = {'label': label, 'attributes': attributes.to_dict('records'), 'mode':'secondary'}
 
         return render_template('page.html', data=data, colour='mediumaquamarine')
 
